@@ -1,0 +1,23 @@
+admin_homepage:
+    path:     /
+    defaults: { _controller: AdminBundle:Default:index }
+
+create_article:
+    path:     /article
+    defaults: { _controller: AdminBundle:Default:createArticle }
+
+manage_page:
+     path:     /manage
+     defaults: { _controller: AdminBundle:Default:managePage }
+
+article_push:
+     path:     /article_push
+     defaults: { _controller: AdminBundle:Default:pushArticle }
+
+article_modify:
+     path:     /article_modify
+     defaults: { _controller: AdminBundle:Default:articleModify }
+
+article_delete:
+     path:     /article_delete
+     defaults: { _controller: AdminBundle:Default:articleDelete }

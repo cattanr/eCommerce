@@ -1,0 +1,11 @@
+store_homepage:
+    path:     /
+    defaults: { _controller: StoreBundle:Default:index }
+
+list_article:
+    path:     /list_article
+    defaults: { _controller: StoreBundle:Default:getArticle }
+
+# push_category:
+#     path:     /push_category
+#     defaults: { _controller: StoreBundle:Default:pushCategory }

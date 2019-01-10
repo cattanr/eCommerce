@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  {% if article is defined %}
+    <div style="margin-left:2%; margin-top: 50px;">
+      <div class="form-group row col-md-10">
+        <label for="InputName">Nom de l'article</label>
+        <input type="text" class="form-control elm" id="name" placeholder="écrivez le nom de l'article" value="{{article.nom}}">
+      </div>
+      <div class="form-group row col-md-3">
+        <label for="InputPrice">Prix de l'article</label>
+        <input type="number" class="form-control elm" id="price" placeholder="Prix  de l'article en €" value="{{article.price}}">
+      </div>
+      <div class="form-group row col-md-10">
+        <label for="InputImage">Chemin de l'image</label>
+        <input type="text" class="form-control elm" id="image" placeholder="/var/www/web/VotreImage" value="{{article.image}}">
+      </div>
+      <div class="form-group row col-md-10">
+        <label for="InputDescription">Description de l'article</label>
+        <input type="text" class="form-control elm" id="description" placeholder="écrivez la description de l'article" value="{{article.description}}">
+      </div>
+      <div class="row col-md-3">
+        <button class="btn btn-primary" onclick="data_request()">Valider</button>
+      </div>
+    </div>
+  {% else %}
+    <div style="margin-left:2%; margin-top: 50px;">
+      <div class="form-group row col-md-10">
+        <label for="InputName">Nom de l'article</label>
+        <input type="text" class="form-control elm" id="name" placeholder="écrivez le nom de l'article">
+      </div>
+      <div class="form-group row col-md-3">
+        <label for="InputPrice">Prix de l'article</label>
+        <input type="number" class="form-control elm" id="price" placeholder="Prix  de l'article en €">
+      </div>
+      <div class="form-group row col-md-10">
+        <label for="InputImage">Chemin de l'image</label>
+        <input type="text" class="form-control elm" id="image" placeholder="/var/www/web/VotreImage">
+      </div>
+      <div class="form-group row col-md-10">
+        <label for="InputDescription">Description de l'article</label>
+        <input type="text" class="form-control elm" id="description" placeholder="écrivez la description de l'article">
+      </div>
+      <div class="row col-md-3">
+        <button class="btn btn-primary" onclick="data_request()">Valider</button>
+      </div>
+  </div>
+  {% endif %}
+</body>
+</html>
+<script>
+  function data_request(id)
+  {
+    var tab = {}
+    $('.elm').each(function (i,data){
+      tab[$(data).attr('id')] = $(data).val()
+    });
+    if("{{article.id}}")
+      tab['id'] = "{{article.id}}"
+    $.ajax({
+        type: 'POST',
+        data: tab,
+        url: "{{path('article_push')}}",
+        success: function(){
+
+        },
+        error: function(){
+        }
+    });
+  }
+</script>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  .html{
+    overflow-x: hidden;
+  }
+  .container {
+    position: relative;
+    text-align: center;
+  }
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-15%, -50%);
+  }
+  .bottom-right {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+}
+
+</style>
+<body>
+  <div id="wrapper">
+    <button class="row col-md-5 btn btn-info" style="margin-left:30%" onclick="ajout()">Créer un article</button>
+    {% for article in articles %}
+        <div class="row col-md-4 container">
+            <span class="articles" style="margin-left: 10%;font-weight: bold;">
+              {{ article.nom }}
+            </span>
+            <img class="articles" style="width: 430px; height: 390px; margin-top: 2%; margin-left:10%;" src="{{article.image}}">
+            <div class="centered">
+              <button class="btn btn-danger" onclick="supp('{{article.id}}')">supprimer</button>
+              <button class="btn btn-primary"  onclick="modify('{{article.id}}')">modifier</button>
+            </div>
+            <div class="bottom-right">Prix : {{ article.price }}€</div>
+        </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
+<script>
+  function ajout(){
+        $.ajax({
+                type: 'POST',
+                data: {},
+                url: "{{path('create_article')}}",
+                success: function(data) {
+                    $('#wrapper').html(data)
+                }
+            });
+  }
+  function modify(id){
+        $.ajax({
+                type: 'POST',
+                data: { 'id': id },
+                url: "{{path('article_modify')}}",
+                success: function(data){
+                  $('#wrapper').html(data)
+                }
+            });
+    }
+  function supp(id){
+        $.ajax({
+                type: 'POST',
+                data: { 'id': id },
+                url: "{{path('article_delete')}}",
+                success: function(data) {
+                    $('#wrapper').html(data)
+                }
+            });
+    }
+</script>

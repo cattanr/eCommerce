@@ -1,0 +1,31 @@
+StoreBundle\Entity\Article:
+    type: entity
+    table: null
+    repositoryClass: StoreBundle\Repository\ArticleRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        price:
+            type: float
+        image:
+            type: string
+            length: '3000'
+        description:
+            type: string
+            length: '3000'
+    manyToOne:
+        category:
+            targetEntity: Category
+            inversedBy: articles
+            joinColumn: 
+                name: category_id
+                referencedColumn: id
+
+    lifecycleCallbacks: {  }

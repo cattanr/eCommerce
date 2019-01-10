@@ -1,0 +1,27 @@
+StoreBundle\Entity\Category:
+    type: entity
+    table: null
+    repositoryClass: StoreBundle\Repository\CategoryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+    oneToMany:
+        articles:
+            targetEntity: Article
+            mappedBy: category
+    manyToOne:
+        gender:
+            targetEntity: Gender
+            inversedBy: categories
+            joinColumn: 
+                name: gender_id
+                referencedColumn: id
+                
+    lifecycleCallbacks: {  }
