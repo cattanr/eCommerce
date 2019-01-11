@@ -37,7 +37,8 @@ class DefaultController extends Controller
         $article->setPrice($request->get("price"));
         $article->setImage($request->get("image"));
         $article->setDescription($request->get("description"));
-        $article->setCategory($request->get("category"));
+        $article->setCategory($this->getDoctrine()->getRepository('StoreBundle:Category')
+            ->findOneById($request->get("category")));
         $em->persist($article);
         $em->flush();
         echo(1);
