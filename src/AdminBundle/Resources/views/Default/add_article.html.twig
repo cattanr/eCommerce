@@ -9,19 +9,22 @@
   <title>Ajout Article</title>
 </head>
 <body>
-
   <div style ="margin-left:2%; margin-top: 50px;">
-    <div class="row col-md-3  " style="margin-top:5px;">
-        <select class="form-control" data-style="btn-primary" name="page" id="pager">
-            {% for gender in genders %}
-              <option value={{ gender.type }}>{{ gender.type }}</option>  
-            {% endfor %}
-        </select>
-        <select class="form-control" data-style="btn-primary" name="page" id="pager">
-            {% for category in categories %}
+      <div class="row col-md-3 " style="margin-top:5px;">
+          <select class="form-control" data-style="btn-primary" name="page" id='selectGender'>
+              {% for gender, category in categories %}
+                <option value='{{ gender }}'> {{ gender }} </option>  
+              {% endfor %}
+          </select>
+      </div>
+    <div class="row col-md-3 " style="margin-top:5px;">
+        {% for gender, categorie in categories %}
+          <select id="{{gender}}" {% if loop.index != 1 %}style='display:none'{% endif %} class="form-control category" data-style="btn-primary">
+            {% for category in categorie %}
               <option value={{ category.name}}>{{ category.name }}</option>  
             {% endfor %}
-        </select>
+          </select>
+        {% endfor %}
     </div>
     <div class="form-group row col-md-10">
       <label for="InputName">Nom de l'article</label>
@@ -46,6 +49,10 @@
 </body>
 </html>
 <script>
+  $('#selectGender').on('change', function() {
+    $('.category').hide()
+    $("#"+$("#selectGender").val()).show()
+  })
   function data_request()
   {
     var tab = {}

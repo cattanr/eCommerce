@@ -1,4 +1,4 @@
 vendor/
-./var/logs/*
-./var/cache/*
-./var/sessions/*
+var/logs/*
+var/cache/*
+var/sessions/*

@@ -21,9 +21,10 @@ class DefaultController extends Controller
     }
     public function createArticleAction()
     {
-        $genders = $this->getDoctrine()->getRepository("StoreBundle:Gender")->findAll();
-        $categories = $this->getDoctrine()->getRepository("StoreBundle:Category")->findAll();
-        return $this->render('@Admin/Default/add_article.html.twig', array('genders' => $genders, 'categories' => $categories));
+        $categories['homme'] = $this->getDoctrine()->getRepository("StoreBundle:Category")->findBy(['gender' => 'homme']);
+        $categories['femme'] = $this->getDoctrine()->getRepository("StoreBundle:Category")->findBy(['gender' => 'femme']);
+        $categories['unisex'] = $this->getDoctrine()->getRepository("StoreBundle:Category")->findBy(['gender' => 'unisex']);
+        return $this->render('@Admin/Default/add_article.html.twig', array('categories' => $categories));
     }
     public function pushArticleAction(Request $request)
     {

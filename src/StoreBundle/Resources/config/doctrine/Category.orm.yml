@@ -12,16 +12,12 @@ StoreBundle\Entity\Category:
         name:
             type: string
             length: 255
+        gender:
+            type: string
+            length: 255
     oneToMany:
         articles:
             targetEntity: Article
             mappedBy: category
-    manyToOne:
-        gender:
-            targetEntity: Gender
-            inversedBy: categories
-            joinColumn: 
-                name: gender_id
-                referencedColumn: id
                 
     lifecycleCallbacks: {  }

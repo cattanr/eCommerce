@@ -96,33 +96,4 @@ class Category
     {
         return $this->articles;
     }
-    /**
-     * @var string
-     */
-    private $gender;
-
-
-    /**
-     * Set gender
-     *
-     * @param string $gender
-     *
-     * @return Category
-     */
-    public function setGender($gender)
-    {
-        $this->gender = $gender;
-
-        return $this;
-    }
-
-    /**
-     * Get gender
-     *
-     * @return string
-     */
-    public function getGender()
-    {
-        return $this->gender;
-    }
 }
