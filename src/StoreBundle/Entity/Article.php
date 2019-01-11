@@ -43,7 +43,7 @@ class Article
     {
         return $this->category;
     }
-    public function setCategory()
+    public function setCategory($category)
     {
         $this->category = $category;
         return $this;

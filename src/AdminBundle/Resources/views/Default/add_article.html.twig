@@ -11,7 +11,7 @@
 <body>
   <div style ="margin-left:2%; margin-top: 50px;">
       <div class="row col-md-3 " style="margin-top:5px;">
-          <select class="form-control" data-style="btn-primary" name="page" id='selectGender'>
+          <select class="form-control" data-style="btn-primary" id='selectGender'>
               {% for gender, category in categories %}
                 <option value='{{ gender }}'> {{ gender }} </option>  
               {% endfor %}
@@ -19,9 +19,9 @@
       </div>
     <div class="row col-md-3 " style="margin-top:5px;">
         {% for gender, categorie in categories %}
-          <select id="{{gender}}" {% if loop.index != 1 %}style='display:none'{% endif %} class="form-control category" data-style="btn-primary">
+          <select id="{{ gender }}" {% if loop.index != 1 %}style='display:none'{% endif %} class="form-control category" data-style="btn-primary">
             {% for category in categorie %}
-              <option value={{ category.name}}>{{ category.name }}</option>  
+              <option value={{ category.id }}>{{ category.name}}</option>
             {% endfor %}
           </select>
         {% endfor %}
@@ -59,6 +59,8 @@
     $('.elm').each(function (i,data){
       tab[$(data).attr('id')] = $(data).val()
     });
+    tab['category'] = $('#selection option:selected').val();
+    console.log(tab)
     $.ajax({
         type: 'POST',
         data: tab,
