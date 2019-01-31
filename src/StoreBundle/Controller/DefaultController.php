@@ -24,6 +24,20 @@ class DefaultController extends Controller
         $articles = $repository->findByPage(($page-1) * 3, 3);
         return $this->render('@Store/Default/list_article.html.twig', array('page' => $page, 'articles' => $articles, 'nbrPage' => $nbrPage));
     }
+
+    public function displayDataAction(Request $request)
+    {
+        $categories = $this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(['gender' => $request->get('gender')]);
+        $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->findByCategory($this->getDoctrine()->getRepository('StoreBundle:Category')->findByGender($request->get('gender')));
+        return $this->render('@Store/Default/display_home_data.html.twig', array('categories' => $categories, 'articles' => $articles));
+    }
+
+    public function displayCategoryDataAction(Request $request)
+    {
+        $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->findByCategory($this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(array('name' => $request->get('name'), 'gender' => $request->get('gender'))));
+        return $this->render('@Store/Default/display_category_data.html.twig', array('articles' => $articles));
+    }
+
     // public function pushCategoryAction()
     // {
     //     $em = $this->getDoctrine()->getManager();
@@ -33,4 +47,5 @@ class DefaultController extends Controller
     //     $em->flush();
     //     return $this->render('@Store/Default/db_push_category.html.twig');
     // }
+
 }

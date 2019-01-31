@@ -20,6 +20,10 @@ StoreBundle\Entity\Article:
         description:
             type: string
             length: '3000'
+        salePrice:
+            type: float
+        salePercent:
+            type: integer
     manyToOne:
         category:
             targetEntity: Category

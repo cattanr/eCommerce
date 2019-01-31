@@ -26,57 +26,141 @@
     position: absolute;
     bottom: 8px;
     right: 16px;
-}
-
+  }
+  .bottom-left-input {
+    position: absolute;
+    bottom: 8px;
+    left: 65px;
+  }
+  .bottom-left-text {
+    position: absolute;
+    color:red;
+    bottom: 8px;
+    left: 250px;
+  }
+  .check{
+    cursor: pointer;
+    left: 95px;
+    border: solid;
+    color: green;
+    top: 30px;
+  }
+  .check:hover{
+    color: black;
+  }
 </style>
 <body>
   <div id="wrapper">
-    <button class="row col-md-5 btn btn-info" style="margin-left:30%" onclick="ajout()">Créer un article</button>
+    <div class="row col-md-12">
+      <select class="col-md-offset-1 col-md-1" id='selectGender'>
+          <option value="all">Tous</option>
+          {% for gender, category in categories %}
+            <option value='{{ gender }}'> {{ gender }} </option>  
+          {% endfor %}
+      </select>
+      {% for gender, categorie in categories %}
+        <select id="category-{{ gender }}" style='display:none' class="col-md-1 category" data-style="btn-primary">
+          {% for category in categorie %}
+            <option value={{ category.id }}>{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      {% endfor %}
+      <button class="btn btn-primary" style="margin-left:2%" onclick="ajout()">Créer un article</button>
+      <button class="btn btn-warning" style="margin-left:1%" onclick="display_promo()">Gérer les promotions</button>
+    </div>
     {% for article in articles %}
-        <div class="row col-md-4 container">
-            <span class="articles" style="margin-left: 10%;font-weight: bold;">
-              {{ article.nom }}
-            </span>
-            <img class="articles" style="width: 430px; height: 390px; margin-top: 2%; margin-left:10%;" src="{{article.image}}">
-            <div class="centered">
-              <button class="btn btn-danger" onclick="supp('{{article.id}}')">supprimer</button>
-              <button class="btn btn-primary"  onclick="modify('{{article.id}}')">modifier</button>
-            </div>
-            <div class="bottom-right">Prix : {{ article.price }}€</div>
+      <div class="row col-md-4 container">
+        <span style="margin-left: 10%;font-weight: bold;">
+          {{ article.nom }}
+        </span>
+        <img style="width: 430px; height: 390px; margin-top: 2%; margin-left:10%;" src="{{ article.image }}">
+        <div class="centered">
+          <button class="btn btn-danger" onclick="supp('{{article.id}}')">supprimer</button>
+          <button class="btn btn-primary"  onclick="modify('{{article.id}}')">modifier</button>
         </div>
+        <div class="bottom-right">Prix : {{ article.price }}€</div>
+        <div class="sale" style="display: none">
+          <div class="bottom-left-input">
+            <div class="glyphicon glyphicon-ok check" onclick="set_sale('{{article.id}}')"></div>
+            <input type="number" id="{{article.id}}" class="form-control" style="width:140px;" placeholder="Promotion en %">
+          </div>
+          <div class="bottom-left-text">prixPromo: {{ article.salePrice }}€</div>
+        </div>
+      </div>
     {% endfor %}
   </div>
 </body>
 </html>
 <script>
+  $('#selectGender').on('change', function() {
+    $('.category').hide()
+    $("#category-"+$("#selectGender").val()).show()
+  })
+  function load_article(id)
+  {
+    console.log(id)
+    $.ajax({
+        type: 'POST',
+        data: {'id' : id},
+        url: "{{path('manage_page')}}",
+        success: function(data){
+          $('#wrapper').html(data)
+        },
+        error: function(){
+        }
+    });
+  }
+  $('.category').on('change', function() {
+    load_article($('.category').val())
+  })
+  $('#selectGender').on('change',function(){
+    if($('#selectGender').val() == 'all')
+      $('#wrapper').load("{{path('manage_page')}}")
+  })
   function ajout(){
-        $.ajax({
-                type: 'POST',
-                data: {},
-                url: "{{path('create_article')}}",
-                success: function(data) {
-                    $('#wrapper').html(data)
-                }
-            });
+    $.ajax({
+            type: 'POST',
+            data: {},
+            url: "{{path('create_article')}}",
+            success: function(data) {
+                $('#wrapper').html(data)
+            }
+        });
   }
   function modify(id){
-        $.ajax({
-                type: 'POST',
-                data: { 'id': id },
-                url: "{{path('article_modify')}}",
-                success: function(data){
-                  $('#wrapper').html(data)
-                }
-            });
-    }
+    $.ajax({
+            type: 'POST',
+            data: { 'id': id },
+            url: "{{path('article_modify')}}",
+            success: function(data){
+              $('#wrapper').html(data)
+            }
+        });
+  }
   function supp(id){
-        $.ajax({
-                type: 'POST',
-                data: { 'id': id },
-                url: "{{path('article_delete')}}",
-                success: function(data) {
-                    $('#wrapper').html(data)
-                }
-            });
-    }
+    $.ajax({
+            type: 'POST',
+            data: { 'id': id },
+            url: "{{path('article_delete')}}",
+            success: function(data) {
+              $('#wrapper').load("{{path('manage_page')}}")
+            }
+        });
+  }
+  function display_promo(){
+    if ($('.sale').css('display') == 'none')
+      $('.sale').css('display', 'block')
+    else
+      $('.sale').css('display', 'none')
+  }
+  function set_sale(id){
+    $.ajax({
+      type: 'POST',
+      data: { 'id': id, 'sale': $('#'+id).val() },
+      url: "{{path('set_sale')}}",
+      success: function(data) {
+        $('#wrapper').load("{{path('manage_page')}}")
+      }
+  });
+  }
 </script>

@@ -21,3 +21,8 @@ article_modify:
 article_delete:
      path:     /article_delete
      defaults: { _controller: AdminBundle:Default:articleDelete }
+
+set_sale:
+     path:     /set_sale
+     defaults: { _controller: AdminBundle:Default:setSale }
+

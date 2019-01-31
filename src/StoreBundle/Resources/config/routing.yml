@@ -6,6 +6,14 @@ list_article:
     path:     /list_article
     defaults: { _controller: StoreBundle:Default:getArticle }
 
+display_home_data:
+    path:     /display_home_data
+    defaults: { _controller: StoreBundle:Default:displayData }
+
+display_category_data:
+    path:     /display_category_data
+    defaults: { _controller: StoreBundle:Default:displayCategoryData }
+    
 # push_category:
 #     path:     /push_category
 #     defaults: { _controller: StoreBundle:Default:pushCategory }

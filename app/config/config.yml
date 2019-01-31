@@ -8,7 +8,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: fr
 
 framework:
     #esi: ~
@@ -59,6 +59,16 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+
+fos_user:
+    db_driver: orm 
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    service:                              
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: "ontrad35@gmail.com"
+        sender_name: "admin"
 
 # Swiftmailer Configuration
 swiftmailer:

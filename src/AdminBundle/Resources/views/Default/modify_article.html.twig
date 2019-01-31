@@ -9,60 +9,53 @@
   <title>Document</title>
 </head>
 <body>
-  {% if article is defined %}
-    <div style="margin-left:2%; margin-top: 50px;">
-      <div class="form-group row col-md-10">
-        <label for="InputName">Nom de l'article</label>
-        <input type="text" class="form-control elm" id="name" placeholder="écrivez le nom de l'article" value="{{article.nom}}">
-      </div>
-      <div class="form-group row col-md-3">
-        <label for="InputPrice">Prix de l'article</label>
-        <input type="number" class="form-control elm" id="price" placeholder="Prix  de l'article en €" value="{{article.price}}">
-      </div>
-      <div class="form-group row col-md-10">
-        <label for="InputImage">Chemin de l'image</label>
-        <input type="text" class="form-control elm" id="image" placeholder="/var/www/web/VotreImage" value="{{article.image}}">
-      </div>
-      <div class="form-group row col-md-10">
-        <label for="InputDescription">Description de l'article</label>
-        <input type="text" class="form-control elm" id="description" placeholder="écrivez la description de l'article" value="{{article.description}}">
-      </div>
-      <div class="row col-md-3">
-        <button class="btn btn-primary" onclick="data_request()">Valider</button>
-      </div>
-    </div>
-  {% else %}
-    <div style="margin-left:2%; margin-top: 50px;">
-      <div class="form-group row col-md-10">
-        <label for="InputName">Nom de l'article</label>
-        <input type="text" class="form-control elm" id="name" placeholder="écrivez le nom de l'article">
-      </div>
-      <div class="form-group row col-md-3">
-        <label for="InputPrice">Prix de l'article</label>
-        <input type="number" class="form-control elm" id="price" placeholder="Prix  de l'article en €">
-      </div>
-      <div class="form-group row col-md-10">
-        <label for="InputImage">Chemin de l'image</label>
-        <input type="text" class="form-control elm" id="image" placeholder="/var/www/web/VotreImage">
-      </div>
-      <div class="form-group row col-md-10">
-        <label for="InputDescription">Description de l'article</label>
-        <input type="text" class="form-control elm" id="description" placeholder="écrivez la description de l'article">
-      </div>
-      <div class="row col-md-3">
-        <button class="btn btn-primary" onclick="data_request()">Valider</button>
+  <div id="success">
+      <div style="margin-left:2%; margin-top: 50px;">
+          <div class="row col-md-3 " style="margin-top:5px;">
+              <select class="form-control elm" data-style="btn-primary">
+                  <option value='{{ article.category.gender }}'> {{ article.category.gender }}</option>
+              </select>
+          </div>
+          <div class="row col-md-3 " style="margin-top:5px;">
+              <select class="form-control">
+                <option id="catName" value="{{ article.category.id }}">{{ article.category.name }}</option>
+              </select>
+          </div>
+        <div class="form-group row col-md-10">
+          <label for="InputName">Nom de l'article</label>
+          <input type="text" class="form-control elm" id="name" placeholder="écrivez le nom de l'article" value="{{article.nom}}">
+        </div>
+        <div class="form-group row col-md-3">
+          <label for="InputPrice">Prix de l'article</label>
+          <input type="number" class="form-control elm" id="price" placeholder="Prix  de l'article en €" value="{{article.price}}">
+        </div>
+        <div class="form-group row col-md-10">
+          <label for="InputImage">Chemin de l'image</label>
+          <input type="text" class="form-control elm" id="image" placeholder="/var/www/web/VotreImage" value="{{article.image}}">
+        </div>
+        <div class="form-group row col-md-10">
+          <label for="InputDescription">Description de l'article</label>
+          <input type="text" class="form-control elm" id="description" placeholder="écrivez la description de l'article" value="{{article.description}}">
+        </div>
+        <div class="row col-md-3">
+          <button class="btn btn-primary" onclick="data_request()">Valider</button>
+        </div>
       </div>
   </div>
-  {% endif %}
 </body>
 </html>
 <script>
+    $('#selectGender').on('change', function() {
+      $('.category').hide()
+      $("#category-"+$("#selectGender").val()).show()
+    })
   function data_request(id)
   {
     var tab = {}
     $('.elm').each(function (i,data){
       tab[$(data).attr('id')] = $(data).val()
     });
+    tab['category'] = $('#catName').val()
     if("{{article.id}}")
       tab['id'] = "{{article.id}}"
     $.ajax({
@@ -70,7 +63,7 @@
         data: tab,
         url: "{{path('article_push')}}",
         success: function(){
-
+          $('#success').load("{{path('manage_page')}}")
         },
         error: function(){
         }

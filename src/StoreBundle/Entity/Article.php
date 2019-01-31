@@ -154,4 +154,91 @@ class Article
     {
         return $this->description;
     }
+    /**
+     * @var integer
+     */
+    private $sale;
+
+
+    /**
+     * Set sale
+     *
+     * @param integer $sale
+     *
+     * @return Article
+     */
+    public function setSale($sale)
+    {
+        $this->sale = $sale;
+
+        return $this;
+    }
+
+    /**
+     * Get sale
+     *
+     * @return integer
+     */
+    public function getSale()
+    {
+        return $this->sale;
+    }
+    /**
+     * @var float
+     */
+    private $salePrice;
+
+    /**
+     * @var integer
+     */
+    private $salePercent;
+
+
+    /**
+     * Set salePrice
+     *
+     * @param float $salePrice
+     *
+     * @return Article
+     */
+    public function setSalePrice($salePrice)
+    {
+        $this->salePrice = $salePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get salePrice
+     *
+     * @return float
+     */
+    public function getSalePrice()
+    {
+        return $this->salePrice;
+    }
+
+    /**
+     * Set salePercent
+     *
+     * @param integer $salePercent
+     *
+     * @return Article
+     */
+    public function setSalePercent($salePercent)
+    {
+        $this->salePercent = $salePercent;
+
+        return $this;
+    }
+
+    /**
+     * Get salePercent
+     *
+     * @return integer
+     */
+    public function getSalePercent()
+    {
+        return $this->salePercent;
+    }
 }
