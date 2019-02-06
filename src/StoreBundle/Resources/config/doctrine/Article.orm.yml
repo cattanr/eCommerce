@@ -24,6 +24,8 @@ StoreBundle\Entity\Article:
             type: float
         salePercent:
             type: integer
+        stock: 
+            type: integer
     manyToOne:
         category:
             targetEntity: Category

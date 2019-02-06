@@ -47,5 +47,8 @@ class DefaultController extends Controller
     //     $em->flush();
     //     return $this->render('@Store/Default/db_push_category.html.twig');
     // }
-
+    public function userAction()
+    {
+        return $this->render('@Store/Default/base.html.twig');
+    }
 }

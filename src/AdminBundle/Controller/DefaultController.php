@@ -91,4 +91,26 @@ class DefaultController extends Controller
         echo(1); die();
     }
 
+    public function stockAction()
+    {
+        $categories['homme'] = $this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(['gender' => 'homme']);
+        $categories['femme'] = $this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(['gender' => 'femme']);
+        $categories['unisex'] = $this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(['gender' => 'unisex']);
+        $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->findAll();
+        $alerts = $this->getDoctrine()->getRepository('StoreBundle:Article')->getArticleAlert();
+        $dangers = $this->getDoctrine()->getRepository('StoreBundle:Article')->getArticleDanger();
+        return $this->render('@Admin/Default/stock.html.twig', array('articles' => $articles, 'alerts' => $alerts, 'dangers' => $dangers, 'categories' => $categories));
+    }
+
+    public function setStockAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $article = $this->getDoctrine()->getRepository('StoreBundle:Article')->findOneById($request->get("id"));
+        $article->setStock($request->get("stock"));
+        $em->persist($article);
+        $em->flush();
+        echo(1);
+        die();
+    }
+
 }

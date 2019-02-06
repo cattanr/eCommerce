@@ -14,6 +14,9 @@ display_category_data:
     path:     /display_category_data
     defaults: { _controller: StoreBundle:Default:displayCategoryData }
     
+user:
+    path:     /user
+    defaults: { _controller: StoreBundle:Default:user }
 # push_category:
 #     path:     /push_category
 #     defaults: { _controller: StoreBundle:Default:pushCategory }

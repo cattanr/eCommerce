@@ -30,10 +30,10 @@
     <body>
         <div class="row" id="navBar">
             <div class="col-md-12">
-                <div class="col-md-3 cat" onclick="change()">
+                <div class="col-md-3 cat" onclick="manage()">
                     Gérer les articles
                 </div>
-                <div class="col-md-3 cat">
+                <div class="col-md-3 cat" onclick="stock()">
                     Gérer les stocks
                 </div>
                 <div class="col-md-3 cat">
@@ -50,12 +50,23 @@
     </body>
 </html>
 <script>
-    function change()
+    function manage()
     {
         $.ajax({
                 type: 'POST',
                 data: {},
                 url: "{{path('manage_page')}}",
+                success: function(data) {
+                    $('.article').html(data)
+                },
+            });
+    }
+    function stock()
+    {
+        $.ajax({
+                type: 'POST',
+                data: {},
+                url: "{{path('stock')}}",
                 success: function(data) {
                     $('.article').html(data)
                 },

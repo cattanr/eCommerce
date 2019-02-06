@@ -2,25 +2,17 @@
 
 namespace AppBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 /**
  * User
  */
-class User
+class User extends BaseUser
 {
-    /**
-     * @var int
-     */
-    private $id;
+    protected $id;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function __construct()
     {
-        return $this->id;
+        parent::__construct();
+        // your own logic
     }
 }
-

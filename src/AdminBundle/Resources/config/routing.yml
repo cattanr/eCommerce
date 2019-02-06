@@ -26,3 +26,11 @@ set_sale:
      path:     /set_sale
      defaults: { _controller: AdminBundle:Default:setSale }
 
+stock:
+     path:     /stock
+     defaults: { _controller: AdminBundle:Default:stock }
+
+set_stock:
+     path:     /set_stock
+     defaults: { _controller: AdminBundle:Default:setStock}
+

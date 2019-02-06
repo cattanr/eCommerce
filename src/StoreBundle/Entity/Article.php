@@ -241,4 +241,33 @@ class Article
     {
         return $this->salePercent;
     }
+    /**
+     * @var integer
+     */
+    private $stock;
+
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return Article
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
 }

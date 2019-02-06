@@ -12,23 +12,40 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
 {
     public function countPage()
     {
-        $querryBuilder = $this
+        $queryBuilder = $this
         ->createQueryBuilder('a')
         ->select('COUNT(a)');
 
-        return $querryBuilder
+        return $queryBuilder
         ->getQuery()
         ->getSingleScalarResult();
     }
 
     public function findByPage($indexStart, $indexEnd)
     {
-        $querryBuilder = $this
+        $queryBuilder = $this
         ->createQueryBuilder('a');
 
-        return $querryBuilder
+        return $queryBuilder
         ->setFirstResult($indexStart)
         ->setMaxResults($indexEnd)
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function getArticleAlert()
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+                             ->where(' a.stock > 10 and a.stock < 25 ');
+        return $queryBuilder
+        ->getQuery()
+        ->getResult();
+    }
+    public function getArticleDanger()
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+                             ->where('a.stock < 10');
+        return $queryBuilder
         ->getQuery()
         ->getResult();
     }
