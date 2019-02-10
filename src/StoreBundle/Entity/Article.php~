@@ -15,7 +15,7 @@ class Article
     /**
      * @var string
      */
-    private $nom;
+    private $name;
 
     /**
      * @var float
@@ -66,9 +66,9 @@ class Article
      *
      * @return Article
      */
-    public function setNom($nom)
+    public function setName($name)
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
@@ -78,9 +78,9 @@ class Article
      *
      * @return string
      */
-    public function getNom()
+    public function getName()
     {
-        return $this->nom;
+        return $this->name;
     }
 
     /**
@@ -240,5 +240,34 @@ class Article
     public function getSalePercent()
     {
         return $this->salePercent;
+    }
+    /**
+     * @var integer
+     */
+    private $stock;
+
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return Article
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
     }
 }

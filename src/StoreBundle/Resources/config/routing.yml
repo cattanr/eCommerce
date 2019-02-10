@@ -7,16 +7,21 @@ list_article:
     defaults: { _controller: StoreBundle:Default:getArticle }
 
 display_home_data:
-    path:     /display_home_data
+    path:     /gender
     defaults: { _controller: StoreBundle:Default:displayData }
 
 display_category_data:
-    path:     /display_category_data
+    path:     /category
     defaults: { _controller: StoreBundle:Default:displayCategoryData }
     
+display_article:
+    path:     category/article
+    defaults: { _controller: StoreBundle:Default:displayArticle }
+
 user:
     path:     /user
     defaults: { _controller: StoreBundle:Default:user }
+
 # push_category:
 #     path:     /push_category
 #     defaults: { _controller: StoreBundle:Default:pushCategory }

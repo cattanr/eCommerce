@@ -81,3 +81,6 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
+
+parameters:
+    invoices_directory: '%kernel.project_dir%/web/uploads/invoices'

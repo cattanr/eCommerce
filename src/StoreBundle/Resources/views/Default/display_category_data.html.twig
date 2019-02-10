@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <style>
@@ -21,11 +23,11 @@
     }
 </style>
 <body>
-    <div style="margin-top:10%;">
+    <div class="article" style="margin-top:10%;">
         {% for article in articles %}
-            <div class="row col-md-4 content">
+            <div class="row col-md-4 content " onclick="display_article('{{article.id}}')">
                 <img style="width: 315px; height: 350px; margin-top:15px;"src="{{article.image}}">
-                <span style="margin-left: 3%; font-weight: bold; font-size: 90%;"> {{ article.nom }} </span>
+                <span style="margin-left: 3%; font-weight: bold; font-size: 90%;"> {{ article.name }} </span>
                 <div style="margin-left:3%; margin-top:5px;">
                     <span {% if article.salePercent != 0 %}style="text-decoration:line-through;" {% endif %}>{{article.price}}€</span>
                     {% if article.salePercent != 0 %}
@@ -37,3 +39,17 @@
         {% endfor %}
 </body>
 </html>
+<script>
+    function display_article(id){
+        $.ajax({
+            type: 'POST',
+            data: {'id': id},
+            url: "{{path('display_article')}}",
+            success: function(data){
+                $("#article").html(data)
+            },
+            error: function(){
+            }
+        });
+    }
+</script>

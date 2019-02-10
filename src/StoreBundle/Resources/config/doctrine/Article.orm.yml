@@ -9,7 +9,7 @@ StoreBundle\Entity\Article:
             generator:
                 strategy: AUTO
     fields:
-        nom:
+        name:
             type: string
             length: 255
         price:

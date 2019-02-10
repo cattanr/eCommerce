@@ -42,7 +42,7 @@ class DefaultController extends Controller
             $article = $this->getDoctrine()->getRepository('StoreBundle:Article')->findOneById($request->get("id"));
         else
             $article = new Article();
-        $article->setNom($request->get("name"));
+        $article->setName($request->get("name"));
         $article->setPrice($request->get("price"));
         $article->setImage($request->get("image"));
         $article->setDescription($request->get("description"));

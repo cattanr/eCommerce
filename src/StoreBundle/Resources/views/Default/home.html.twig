@@ -32,7 +32,7 @@
             margin-top:25px;
             text-align: center;
         }
-        .topBouton:hover{
+        span:hover{
             color: #660033;
         }
         .parallax-window {
@@ -51,10 +51,12 @@
             overflow-y: visible;
         }
         #logPage{
-            margin-top: 150px;
-            height: 600px;
+            margin-top: 30px;
+            height: 650px;
             background-color: white;
-            display:block
+            display:block;
+            overflow-y: scroll;
+
 
         }
         #forgotPage{
@@ -87,6 +89,25 @@
         #return:hover{
             color:orange;
         }
+        span.glyphicon-shopping-cart{
+            font-size: 120%;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+            font-family: Malgun Gothic; 
+        }
+        a:hover{
+            color: #660033;
+            text-decoration: none;
+        }
+        #cart{
+            margin-left:45%;
+        }
+        #cart:hover{
+            color: #660033;
+            cursor:pointer;
+        }
     </style>
 </head>
 <body>
@@ -96,29 +117,39 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="col-sm-offset-4 col-sm-1 topBouton">
-                        <a href="http://195.154.119.108/app_dev.php/">
-                            <span style="font-family: Malgun Gothic; cursor: pointer; color:black;">home</span>
-                        </a>
+                        <a href="http://195.154.119.108/app_dev.php/">Home</a>
                     </div>
                     <div class="col-sm-1 topBouton">
-                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('homme')">homme</span>
+                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('homme')">Homme</span>
                     </div>
                     <div class="col-sm-1 topBouton" style="font-family: Malgun Gothic;">
-                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('femme')">femme</span>
+                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('femme')">Femme</span>
                     </div>
                     <div class="col-sm-1 topBouton">
-                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('unisex')">unisex</span>
+                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('unisex')">Unisex</span>
                     </div>
-                    <div class="col-sm-offset-2 col-sm-2 topBouton">
-                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="windowLog()">Register/ Log In</span>
-                    </div>
+                    {% if is_granted('ROLE_USER') %}
+                        <div class="col-sm-2 topBouton">
+                            <div id="cart" onclick="windowCart()">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                <span style="font-family: Malgun Gothic; margin-left:3%;">Mon Panier ({{ length }})</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 topBouton">
+                            <a href="http://195.154.119.108/app_dev.php/logout">Déconnexion</a>
+                        </div>
+                    {% else %}
+                        <div class="col-sm-offset-1 col-sm-2 topBouton">
+                            <a href="http://195.154.119.108/app_dev.php/login">S'inscrire/ Connexion</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
     <div id="load">
         <div class="container-fluid row col-sm-12">
-            <img style="margin-top:6%; width:103%; height:750px;" src="https://wallpapercave.com/wp/wp1871582.jpg"/>
+            <img style="margin-top:6%; width:103%; height:750px;" src="https://www.pixelstalk.net/wp-content/uploads/2016/07/4k-Wallpapers-For-Desktop.jpg"/>
             <div class="col-sm-offset-5" style="margin-top:5%; height:350px;">
                 <h1>Insert catch phrase here</h1>
                 <p>Insert description here</p>
@@ -137,47 +168,35 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="col-sm-offset-4 col-sm-4" id="logPage">
-                    <div class="glyphicon glyphicon-remove" id="close-button" onclick="windowLog()" ></div>
-                    <div class="col-sm-offset-4">
-                        <p style="margin-top:10%;">Connect to your account</p>
-                    </div>
+                    <div class="glyphicon glyphicon-remove" id="close-button" onclick="windowCart()" ></div>
                     <div class="col-sm-12">
-                        <div class="col-sm-offset-2" style="margin-top:8%;">
-                            <input class="col-sm-10" type="email" placeholder="E-mail">
-                            <input class="col-sm-10" type="password" placeholder="Password" style="margin-top:15%;">
-                            <div class="col-sm-7 col-sm-offset-6" style="margin-top:7%;">
-                                <small id="forgot" onclick="windowForgot()">Forgot your password ?</small>
-                            </div>
-                            <div>
-                                <button class="col-sm-10" style="margin-top:20px;">LOG IN</button>
-                                <button class="col-sm-10" style="margin-top:10px;">insert facebook/google button</button>
-                                <p style="margin-top:40px;" class="col-sm-10 col-sm-offset-2">Not a member ?  <small id="return">Join now.</small></p>
-                            </div>
-                        </div>
+                        {% if cart == [] %}
+                            <span>votre panier est vide</span>
+                        {% else %}
+                            {% for object in cart %}
+                                <div class="col-sm-offset-1 col-md-11" style="margin-top:5%;">
+                                    <div class="col-md-6">
+                                        <img style="width:100%; height:150px;" src="{{ object.article.image }}">
+                                        <span>{{ object.article.name }}</span>
+                                        <span>{{ object.article.price }} €</span>
+                                        <br>
+                                        <button class="btn btn-danger" onclick="removeItem('{{ object.article.id }}')">Retirer du panier</button>
+                                    </div>
+                                    <div class="col-md-5" style="margin-top:20%;">
+                                        <div class="glyphicon glyphicon-minus" style="cursor:pointer" onclick="minusItem('{{ object.article.id }}')"></div>
+                                        <span>quantité {{object.quantity}}</span>
+                                        <div class="glyphicon glyphicon-plus" style="cursor:pointer" onclick="plusItem('{{ object.article.id }}')"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <button class="btn btn-primary" style="margin-top:3%" onclick="submitCart()">procéder au paiement</button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="col-sm-offset-4 col-sm-4" id="forgotPage">
-                    <div class="glyphicon glyphicon-remove" id="close-button" onclick="windowLog()" ></div>
-                    <div class="col-sm-offset-2" style="margin-top:8%; height:300px;">
-                        <p>Enter your email to receive instructions on how to reset your password</p>
-                        <input style="margin-top:120px;" class="col-sm-10" type="email" placeholder="E-mail"style="margin-top:15%;">
-                        <button style="margin-top:30px;" class="col-sm-10">reset</button>
-                    </div>
-                    <div class="col-sm-offset-5" style="height:50px;">
-                        <p>Or return to  <small id="return" onclick="windowForgot()">Log In.</small></p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        </div>
     </div>
     <script>
-        function windowLog()
+        function windowCart()
         {
             if($("#forgotPage").css("display","block"))
             {
@@ -195,18 +214,7 @@
                 $("html").css({"overflow-y": "visible"});
             }
         }
-        function windowForgot()
-        {
-            if ($("#logPage").css("display") == "none")
-            {
-                $("#forgotPage").css("display","none");
-                $("#logPage").css("display","block");
-            }
-            else{
-                $("#logPage").css("display","none");
-                $("#forgotPage").css("display","block");
-            }
-        }
+
         function load_data(gender)
         {
             $.ajax({
@@ -217,6 +225,47 @@
                     $('#load').html(data)
                 }
             });
+        }
+
+        function plusItem(id)
+        {
+            $.ajax({
+                type: 'POST',
+                data: {'plusItem' : id},
+                url: "{{ path('store_homepage') }}",
+                success: function(data){
+                    $('body').load("{{path('store_homepage')}}")
+                }
+            });
+        }
+
+        function minusItem(id)
+        {
+            $.ajax({
+                type: 'POST',
+                data: {'minusItem' : id},
+                url: "{{ path('store_homepage') }}",
+                success: function(data){
+                    $('body').load("{{path('store_homepage')}}")
+                }
+            });
+        }
+
+        function removeItem(id)
+        {
+            $.ajax({
+                type: 'POST',
+                data: {'removeItem' : id},
+                url: "{{ path('store_homepage') }}",
+                success: function(data){
+                    $('body').load("{{path('store_homepage')}}")
+                }
+            });
+        }
+
+        function submitCart(cart)
+        {
+            
         }
     </script>
 </body>

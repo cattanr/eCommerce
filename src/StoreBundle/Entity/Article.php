@@ -15,7 +15,7 @@ class Article
     /**
      * @var string
      */
-    private $nom;
+    private $name;
 
     /**
      * @var float
@@ -66,9 +66,9 @@ class Article
      *
      * @return Article
      */
-    public function setNom($nom)
+    public function setName($name)
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
@@ -78,9 +78,9 @@ class Article
      *
      * @return string
      */
-    public function getNom()
+    public function getName()
     {
-        return $this->nom;
+        return $this->name;
     }
 
     /**

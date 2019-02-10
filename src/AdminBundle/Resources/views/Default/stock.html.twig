@@ -34,8 +34,6 @@
         border: solid;
         border-width: 1px;
         border-color: grey;
-        cursor: pointer;
-
     }
     .contentAlert{
         margin-left:2%;
@@ -45,10 +43,6 @@
         border-width: 2px;
         border-color:orange;
     }
-    .contentAlert:hover{
-        cursor: pointer;
-
-    }
     .contentDanger{
         margin-left:2%;
         width: 25%;
@@ -56,10 +50,6 @@
         border: solid;
         border-width: 2px;
         border-color:red;
-    }
-    .contentDanger:hover{
-        cursor: pointer;
-
     }
 </style>
 <body>
@@ -74,7 +64,7 @@
                 <tbody>
                     {% for alert in alerts %}
                         <tr>
-                            <td>{{ alert.nom }}</td>
+                            <td>{{ alert.name }}</td>
                             <td>{{ alert.stock }}</td>
                         </tr>
                     {% endfor %}
@@ -91,7 +81,7 @@
                     <tbody>
                         {% for danger in dangers %}
                             <tr>
-                                <td>{{ danger.nom }}</td>
+                                <td>{{ danger.name }}</td>
                                 <td>{{ danger.stock }}</td>
                             </tr>
                         {% endfor %}
@@ -103,7 +93,7 @@
             {% for article in articles %}
                 <div class="col-md-4 {% if article.stock < 10 %}contentDanger {% elseif article.stock > 10 and article.stock < 25 %}contentAlert {% else %} content{% endif %} ">
                     <img style="width: 315px; height: 350px; margin-top:15px;" src="{{article.image}}">
-                    <span style="margin-left: 3%; font-weight: bold; font-size: 90%;"> {{ article.nom }} </span>
+                    <span style="margin-left: 3%; font-weight: bold; font-size: 90%;"> {{ article.name }} </span>
                     <div style="margin-left:3%; margin-top:5px;">
                         <input type="number" id="{{article.id}}" class="form-control col-md-6" style="width:180px;" placeholder="{{ article.stock }} articles en stock"> 
                         <button class="btn btn-success col-md-4" style="margin-left:1%;" onclick="stock('{{ article.id }}')">confirmer</button>                       

@@ -40,11 +40,11 @@
     </div>
     <div class="col-md-offset-2" id="article" style="margin-top:10%;">
         {% for article in articles %}
-            <div class="row col-md-4 content">
+            <div class="row col-md-4 content" onclick="display_article('{{article.id}}')">
                 <img style="width: 315px; height: 350px; margin-top:15px;"src="{{article.image}}">
-                <span style="margin-left: 3%; font-weight: bold; font-size: 90%;"> {{ article.nom }} </span>
+                <span style="margin-left: 3%; font-weight: bold; font-size: 90%;"> {{ article.name }} </span>
                 <div style="margin-left:3%; margin-top:5px;">
-                    <span {% if article.salePercent != 0 %}style="text-decoration:line-through;" {% endif %}>{{article.price}}€</span>
+                    <span {% if article.salePercent != 0 %}style="text-decoration:line-through;" {% endif %}>{{ article.price }}€</span>
                     {% if article.salePercent != 0 %}
                        <span style="color:grey; margin-left:2%">{{article.salePrice}}€</span>
                        <span style="color:red; margin-left:2%;">Promotion -{{article.salePercent}}%</span>
@@ -73,4 +73,16 @@
         });
     }
 
+    function display_article(id){
+        $.ajax({
+            type: 'POST',
+            data: {'id': id},
+            url: "{{path('display_article')}}",
+            success: function(data){
+                $("#article").html(data)
+            },
+            error: function(){
+            }
+        });
+    }
 </script>
