@@ -1,152 +1,159 @@
 <!DOCTYPE html>
 <html lang="fr" class="js_active vc_desktop vc_transform" >
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>안녕</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <style>
-        html{
-            overflow-x: hidden;
-        }
-        .bandeau{
-            margin-left: -2%;
-            width:102%;
-            height: 90px;
-            background-color: white;
-            color: black;
-            position: fixed;
-            z-index: 3;
-            border-bottom-style:outset;
-            border-bottom-width:1px;
-        }
-        #homeBouton{
-            margin-left:48%;
-            font-family: Malgun Gothic;
-            font-size:150%;
-            cursor: default;
-        }
-        .topBouton{
-            margin-top:25px;
-            text-align: center;
-        }
-        span:hover{
-            color: #660033;
-        }
-        .parallax-window {
-            background: transparent;
-            height: 930px;
-        }
-        #overlay{
-            display:none;
-            background-color: rgba(0,0,0,0.7);
-            position:fixed;
-            width:100%;
-            height:100%;
-            top:0px;
-            left:0px;
-            z-index:1000;
-            overflow-y: visible;
-        }
-        #logPage{
-            margin-top: 30px;
-            height: 650px;
-            background-color: white;
-            display:block;
-            overflow-y: scroll;
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>안녕</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        {% block style %}
+            <style>
+                html{
+                    overflow-x: hidden;
+                }
+                .bandeau{
+                    margin-left: -2%;
+                    width:102%;
+                    height: 90px;
+                    background-color: white;
+                    color: black;
+                    position: fixed;
+                    z-index: 3;
+                    border-bottom-style:outset;
+                    border-bottom-width:1px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+                #homeBouton{
+                    margin-left:48%;
+                    font-family: Malgun Gothic;
+                    font-size:150%;
+                    cursor: default;
+                }
+                .topBouton{
+                    margin-top:25px;
+                    text-align: center;
+                }
+                span:hover{
+                    color: #660033;
+                }
+                .parallax-window {
+                    background: transparent;
+                    height: 930px;
+                }
+                #overlay{
+                    display:none;
+                    background-color: rgba(0,0,0,0.7);
+                    position:fixed;
+                    width:100%;
+                    height:100%;
+                    top:0px;
+                    left:0px;
+                    z-index:1000;
+                    overflow-y: visible;
+                }
+                #logPage{
+                    margin-top: 30px;
+                    height: 650px;
+                    background-color: white;
+                    display:block;
+                    overflow-y: scroll;
 
 
-        }
-        #forgotPage{
-            margin-top: 200px;
-            height: 500px;
-            background-color: white;
-            display:block
-        }
-        #close-button{
-            margin-left:97%;
-            margin-top:2%;
-            font-size:130%;
-        }
-        #close-button:hover{
-            color:orange;
-            cursor:pointer;
-        }
-        #forgot{
-            color:grey;
-        }
-        #forgot:hover{
-            color:black;
-            cursor: pointer;
-        }
-        #return{
-            font-size: 110%;
-            text-decoration:underline;
-            cursor:pointer;
-        }
-        #return:hover{
-            color:orange;
-        }
-        span.glyphicon-shopping-cart{
-            font-size: 120%;
-        }
-        a{
-            color: black;
-            text-decoration: none;
-            font-family: Malgun Gothic; 
-        }
-        a:hover{
-            color: #660033;
-            text-decoration: none;
-        }
-        #cart{
-            margin-left:45%;
-        }
-        #cart:hover{
-            color: #660033;
-            cursor:pointer;
-        }
-    </style>
+                }
+                #forgotPage{
+                    margin-top: 200px;
+                    height: 500px;
+                    background-color: white;
+                    display:block
+                }
+                #close-button{
+                    margin-left:97%;
+                    margin-top:2%;
+                    font-size:130%;
+                }
+                #close-button:hover{
+                    color:orange;
+                    cursor:pointer;
+                }
+                #forgot{
+                    color:grey;
+                }
+                #forgot:hover{
+                    color:black;
+                    cursor: pointer;
+                }
+                #return{
+                    font-size: 110%;
+                    text-decoration:underline;
+                    cursor:pointer;
+                }
+                #return:hover{
+                    color:orange;
+                }
+                span.glyphicon-shopping-cart{
+                    font-size: 120%;
+                }
+                a{
+                    color: black;
+                    text-decoration: none;
+                    font-family: Malgun Gothic; 
+                }
+                a:hover{
+                    color: #660033;
+                    text-decoration: none;
+                }
+                #cart{
+                    margin-left:45%;
+                }
+                #cart:hover{
+                    color: #660033;
+                    cursor:pointer;
+                }
+            </style>
+        {% endblock %}
+    {% endblock %}
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="bandeau">
-            <span id="homeBouton">내 마케트</span>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="col-sm-offset-4 col-sm-1 topBouton">
-                        <a href="http://195.154.119.108/app_dev.php/">Home</a>
-                    </div>
-                    <div class="col-sm-1 topBouton">
-                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('homme')">Homme</span>
-                    </div>
-                    <div class="col-sm-1 topBouton" style="font-family: Malgun Gothic;">
-                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('femme')">Femme</span>
-                    </div>
-                    <div class="col-sm-1 topBouton">
-                        <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('unisex')">Unisex</span>
-                    </div>
-                    {% if is_granted('ROLE_USER') %}
-                        <div class="col-sm-2 topBouton">
-                            <div id="cart" onclick="windowCart()">
-                                <span class="glyphicon glyphicon-shopping-cart"></span>
-                                <span style="font-family: Malgun Gothic; margin-left:3%;">Mon Panier ({{ length }})</span>
-                            </div>
+    {% block bandeau %}
+        <div class="container-fluid">
+            <div class="bandeau">
+                <span id="homeBouton">내 마케트</span>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-offset-4 col-sm-1 topBouton">
+                            <a href="http://195.154.119.108/app_dev.php/">Home</a>
                         </div>
                         <div class="col-sm-1 topBouton">
-                            <a href="http://195.154.119.108/app_dev.php/logout">Déconnexion</a>
+                            <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('homme')">Homme</span>
                         </div>
-                    {% else %}
-                        <div class="col-sm-offset-1 col-sm-2 topBouton">
-                            <a href="http://195.154.119.108/app_dev.php/login">S'inscrire/ Connexion</a>
+                        <div class="col-sm-1 topBouton" style="font-family: Malgun Gothic;">
+                            <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('femme')">Femme</span>
                         </div>
-                    {% endif %}
+                        <div class="col-sm-1 topBouton">
+                            <span style="font-family: Malgun Gothic; cursor: pointer;" onclick="load_data('unisex')">Unisex</span>
+                        </div>
+                        {% if is_granted('ROLE_USER') %}
+                            <div class="col-sm-2 topBouton">
+                                <div id="cart" onclick="windowCart()">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                    <span style="font-family: Malgun Gothic; margin-left:3%;">Mon Panier ({{ length }})</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 topBouton">
+                                <a href="http://195.154.119.108/app_dev.php/logout">Déconnexion</a>
+                            </div>
+                        {% else %}
+                            <div class="col-sm-offset-1 col-sm-2 topBouton">
+                                <a href="http://195.154.119.108/app_dev.php/login">S'inscrire/ Connexion</a>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endblock %}
     <div id="load">
         <div class="container-fluid row col-sm-12">
             <img style="margin-top:6%; width:103%; height:750px;" src="https://www.pixelstalk.net/wp-content/uploads/2016/07/4k-Wallpapers-For-Desktop.jpg"/>
@@ -176,16 +183,18 @@
                             {% for object in cart %}
                                 <div class="col-sm-offset-1 col-md-11" style="margin-top:5%;">
                                     <div class="col-md-6">
-                                        <img style="width:100%; height:150px;" src="{{ object.article.image }}">
+                                        <img style="width:100%; height:150px;" src="{{ object.id.image }}">
                                         <span>{{ object.article.name }}</span>
-                                        <span>{{ object.article.price }} €</span>
+                                        <br>
+                                        <span>Prix unité: {{ object.article.salePrice }} €</span>
                                         <br>
                                         <button class="btn btn-danger" onclick="removeItem('{{ object.article.id }}')">Retirer du panier</button>
                                     </div>
                                     <div class="col-md-5" style="margin-top:20%;">
                                         <div class="glyphicon glyphicon-minus" style="cursor:pointer" onclick="minusItem('{{ object.article.id }}')"></div>
-                                        <span>quantité {{object.quantity}}</span>
+                                        <span>Quantité {{object.quantity}}</span>
                                         <div class="glyphicon glyphicon-plus" style="cursor:pointer" onclick="plusItem('{{ object.article.id }}')"></div>
+                                        <span>total prix:{{ object.quantityPrice }} €</span>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -195,78 +204,79 @@
                 </div>
             </div>
     </div>
-    <script>
-        function windowCart()
-        {
-            if($("#forgotPage").css("display","block"))
+    {% block javascript %}
+        <script>
+            function windowCart()
             {
-                $("#forgotPage").css("display","none");
-                $("#logPage").css("display","block");
+                if($("#forgotPage").css("display","block"))
+                {
+                    $("#forgotPage").css("display","none");
+                    $("#logPage").css("display","block");
+                }
+                if ($("#overlay").css("display") == "none")
+                {
+                    $("#overlay").css("display","block");
+                    $("html").css({"overflow-y": "hidden"});
+                }
+                else
+                {
+                    $("#overlay").css("display","none");
+                    $("html").css({"overflow-y": "visible"});
+                }
             }
-            if ($("#overlay").css("display") == "none")
+
+            function load_data(gender)
             {
-                $("#overlay").css("display","block");
-                $("html").css({"overflow-y": "hidden"});
+                $.ajax({
+                    type: 'GET',
+                    url: "http://195.154.119.108/app_dev.php/"+gender,
+                    success: function(data) {
+                        $('body').load("http://195.154.119.108/app_dev.php/"+gender)
+                    }
+                });
             }
-            else
+
+            function plusItem(id)
             {
-                $("#overlay").css("display","none");
-                $("html").css({"overflow-y": "visible"});
+                $.ajax({
+                    type: 'POST',
+                    data: {'plusItem' : id},
+                    url: "{{ path('store_homepage') }}",
+                    success: function(data){
+                        $('body').load("{{path('store_homepage')}}")
+                    }
+                });
             }
-        }
 
-        function load_data(gender)
-        {
-            $.ajax({
-                type: 'POST',
-                data: {'gender' : gender},
-                url: "{{path('display_home_data')}}",
-                success: function(data) {
-                    $('#load').html(data)
-                }
-            });
-        }
+            function minusItem(id)
+            {
+                $.ajax({
+                    type: 'POST',
+                    data: {'minusItem' : id},
+                    url: "{{ path('store_homepage') }}",
+                    success: function(data){
+                        $('body').load("{{path('store_homepage')}}")
+                    }
+                });
+            }
 
-        function plusItem(id)
-        {
-            $.ajax({
-                type: 'POST',
-                data: {'plusItem' : id},
-                url: "{{ path('store_homepage') }}",
-                success: function(data){
-                    $('body').load("{{path('store_homepage')}}")
-                }
-            });
-        }
+            function removeItem(id)
+            {
+                $.ajax({
+                    type: 'POST',
+                    data: {'removeItem' : id},
+                    url: "{{ path('store_homepage') }}",
+                    success: function(data){
+                        $('body').load("{{path('store_homepage')}}")
+                    }
+                });
+            }
 
-        function minusItem(id)
-        {
-            $.ajax({
-                type: 'POST',
-                data: {'minusItem' : id},
-                url: "{{ path('store_homepage') }}",
-                success: function(data){
-                    $('body').load("{{path('store_homepage')}}")
-                }
-            });
-        }
-
-        function removeItem(id)
-        {
-            $.ajax({
-                type: 'POST',
-                data: {'removeItem' : id},
-                url: "{{ path('store_homepage') }}",
-                success: function(data){
-                    $('body').load("{{path('store_homepage')}}")
-                }
-            });
-        }
-
-        function submitCart(cart)
-        {
-            
-        }
-    </script>
+            function submitCart(cart)
+            {
+                
+            }
+        </script>
+    {% endblock %}
 </body>
 </html>

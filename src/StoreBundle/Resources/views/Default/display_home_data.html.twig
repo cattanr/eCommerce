@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% extends home.html.twig %}
 <html lang="fr">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -30,13 +31,22 @@
     }
 </style>
 <body>
+    {% block bandeau %}{% endblock %}
     <div id ="load" class="container col-md-2" style="height:1360px; border-right-style:outset; border-right-width:1px;">
-        <span style="margin-left:2%; font-size:130%; ">{{ categories[0].gender }}</span>
+        <span style="font-size:130%; ">{{ categories[0].gender }}</span>
         {% for category in categories %}
             <div class="col-md-12">
                 <span class="category" onclick="load_data_by_category('{{category.name}}','{{category.gender}}')">{{category.name}}</span>
             </div>
         {% endfor %}
+        <div class="col-md-12" style="margin-top:15px">
+            <select name="filters" class="form-control" id="">
+                <option value="" hidden>Trier par</option>
+                <option value="">Nouveauté</option>
+                <option value="">Prix Croissant</option>
+                <option value="">Prix décroissant</option>
+            </select>
+        </div>
     </div>
     <div class="col-md-offset-2" id="article" style="margin-top:10%;">
         {% for article in articles %}
@@ -55,7 +65,8 @@
     </div>
 </body>
 </html>
-<script>
+{% block javascript %}
+    {{ parent() }}
     function load_data_by_category(category, gender)
     {
         var tab ={}
@@ -85,4 +96,4 @@
             }
         });
     }
-</script>
+{% endblock %}

@@ -21,14 +21,14 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
         ->getSingleScalarResult();
     }
 
-    public function findByPage($indexStart, $indexEnd)
+    public function findByPage($limit, $offset)
     {
         $queryBuilder = $this
         ->createQueryBuilder('a');
 
         return $queryBuilder
-        ->setFirstResult($indexStart)
-        ->setMaxResults($indexEnd)
+        ->setFirstResult($limit)
+        ->setMaxResults($offset)
         ->getQuery()
         ->getResult();
     }
@@ -45,6 +45,17 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('a')
                              ->where('a.stock < 10');
+        return $queryBuilder
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function sortByPriceIncrease()
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+                             ->setMaxResults($limit)
+                             ->setFirstResult($offset)
+                             ->orderBy('a.price', 'ASC');
         return $queryBuilder
         ->getQuery()
         ->getResult();

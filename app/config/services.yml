@@ -29,12 +29,10 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    AppBundle\Service\FileUploader:
-        arguments:
-            $targetDirectory: '%invoices_directory%'
+    # AppBundle\Service\FileUploader:
+    #     arguments:
+    #         $targetDirectory: '%invoices_directory%'
 
-    StoreBundle\Service\ItemCart:
-        public: true
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
