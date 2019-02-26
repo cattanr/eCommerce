@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {% for article in articles %}
+        <a class="row col-md-4 article submit-article" href="{{path('display_article', { 'gender': article.category.gender, 'category': article.category.name, 'slug': article.slug, 'id': article.id}) }}">
+            <img class="category-image" src="{{article.image}}">
+            <span class="category-name"> {{ article.name }} </span>
+            <div class="category-sale">
+                <span {% if article.salePercent != 0 %}class="category-sale-price" {% endif %}>{{ article.price|number_format(2,'.',',') }}€</span>
+                {% if article.salePercent != 0 %}
+                    <span class="sale-price">{{article.salePrice|number_format(2,'.',',')}}€</span>
+                    <span class="sale-percent">Promotion -{{article.salePercent}}%</span>
+                {% endif %}
+            </div>
+        </a>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% block sidebar %}
+    <div class="container col-md-2 side-bar">
+        <span id="gender-font">{{ categories[0].gender|capitalize }}</span>
+        {% for category in categories %}
+            <div class="col-md-12">
+                <a class="submit-a" href="{{ path('display_home_data', {'gender': category.gender, 'category': category.name }) }}">{{category.name|capitalize}}</a>
+            </div>
+        {% endfor %}
+        <div class="col-md-12" style="margin-top:20px;">
+            <select name="filters" class="form-control" onchange="sort(this)">
+                <option value="" hidden>Trier par</option>
+                <option value="NEW">Nouveauté</option>
+                <option value="ASC">Prix Croissant</option>
+                <option value="DESC">Prix décroissant</option>
+            </select>
+        </div>
+    </div>
+{% endblock %}

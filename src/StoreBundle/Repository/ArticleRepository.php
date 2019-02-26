@@ -2,6 +2,8 @@
 
 namespace StoreBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * ArticleRepository
  *
@@ -50,14 +52,28 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
         ->getResult();
     }
 
-    public function sortByPriceIncrease()
+    public function sortBy($type, $gender, $category)
     {
-        $queryBuilder = $this->createQueryBuilder('a')
-                             ->setMaxResults($limit)
-                             ->setFirstResult($offset)
-                             ->orderBy('a.price', 'ASC');
+        if($category == null){
+            $queryBuilder = $this->createQueryBuilder('a')
+                                ->select('a, c')
+                                ->innerJoin('a.category', 'c') 
+                                ->where('c.gender = :gender')
+                                ->orderBy('a.salePrice', $type)
+                                ->setParameters(['gender'=> $gender]); 
+        }
+        else{
+            $queryBuilder = $this->createQueryBuilder('a')
+                                ->select('a, c')
+                                ->innerJoin('a.category', 'c') 
+                                ->where('c.gender = :gender')
+                                ->andWhere('c.name = :name')
+                                ->orderBy('a.salePrice', $type)
+                                ->setParameters(['gender'=> $gender, 'name' => $category]);
+        }
         return $queryBuilder
         ->getQuery()
         ->getResult();
+
     }
 }

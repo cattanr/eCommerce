@@ -2,6 +2,8 @@
 
 namespace StoreBundle\Entity;
 
+use Cocur\Slugify\Slugify;
+
 /**
  * Article
  */
@@ -83,6 +85,10 @@ class Article
         return $this->name;
     }
 
+    public function getSlug()
+    {
+        return (new Slugify())->slugify($this->name);
+    }
     /**
      * Set price
      *

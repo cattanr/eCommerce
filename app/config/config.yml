@@ -84,3 +84,9 @@ sensio_framework_extra:
 
 parameters:
     invoices_directory: '%kernel.project_dir%/web/uploads/invoices'
+
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes: ['boostrap_4_layout.html.twig']

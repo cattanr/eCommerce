@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script
+        src="https://www.paypalobjects.com/api/checkout.js">
+    </script>
+    </head>
+<body>
+    <span>compte de test: ontrad35, paypaltest1</span>
+    <div id="paypal-button"></div>
+
+    <script>
+        paypal.Button.render({
+          env: 'sandbox',
+          commit: true,
+          locale: 'fr_FR',
+          style: {
+            color: 'blue',
+            shape: 'pill',
+            label: 'generic'
+          },
+          payment: function() {
+            return paypal.request.post('StoreBundle/Service/Paypal/payment.php').then(function(data){
+              return data.id;
+            });
+          },
+          onAuthorize: function(data, actions) {
+            return paypal.request.post('pay.php', {
+              paymentID: data.paymentID,
+              payerID: data.payerID
+            }).then(function(){
+              //faire l'affichage du paiement success
+            }).catch(function(err){
+              console.log('erreur', err)
+            });
+          }
+        },'#paypal-button');
+    </script>
+</body>
+</html>

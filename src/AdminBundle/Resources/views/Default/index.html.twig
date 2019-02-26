@@ -28,17 +28,21 @@
         }
     </style>
     <body>
-        <div class="row" id="navBar">
-            <div class="col-md-12">
-                <div class="col-md-3 cat" onclick="manage()">Gérer les articles</div>
-                <div class="col-md-3 cat" onclick="stock()">Gérer les stocks</div>
-                <div class="col-md-3 cat">Mes factures</div>
-                <div class="col-md-2 cat">Statistiques</div>
+        {% block navbar %}
+            <div class="row" id="navBar">
+                <div class="col-md-12">
+                    <div class="col-md-3 cat" onclick="manage()">Gérer les articles</div>
+                    <div class="col-md-3 cat" onclick="stock()">Gérer les stocks</div>
+                    <div class="col-md-3 cat">Mes factures</div>
+                    <div class="col-md-2 cat">Statistiques</div>
+                </div>
             </div>
-        </div>
-        <div class="row col-md-12 article" style="margin-top: 2%">
-            bienvenue sur le dashboard du site eCommerce (fixMe: mettre un point pertinent pour chaque section, nombre d'article, volume de vente, nombre de clients etc… )
-        </div>
+        {% endblock %}
+        {% block content %}
+            <div class="row col-md-12 article" style="margin-top: 2%">
+                bienvenue sur le dashboard du site eCommerce (fixMe: mettre un point pertinent pour chaque section, nombre d'article, volume de vente, nombre de clients etc… )
+            </div>
+        {% endblock %}
     </body>
 </html>
 <script>

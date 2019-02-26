@@ -8,6 +8,7 @@ use StoreBundle\Entity\Article;
 use StoreBundle\Entity\Category;
 use StoreBundle\Entity\Gender;
 use StoreBundle\Service\ShoppingCart;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
@@ -15,8 +16,6 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $session = $this->get('session');
-        if ($request)
-            ShoppingCart::mainCart($session, $request);
         $cart = ShoppingCart::getCart($session);
         $len = count($cart);
         return $this->render('@Store/Default/home.html.twig', array('cart' => $cart, 'length' => $len));
@@ -32,28 +31,62 @@ class DefaultController extends Controller
         return $this->render('@Store/Default/list_article.html.twig', array('page' => $page, 'articles' => $articles, 'nbrPage' => $nbrPage));
     }
 
-    public function displayDataAction(Request $request)
+    public function displayDataAction($gender, $category, Request $request)
     {
-        $gender = $request->get('gender');
-        $categories = $this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(['gender' => $gender]);
-        $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->findByCategory($this->getDoctrine()->getRepository('StoreBundle:Category')->findByGender($gender));
-        return $this->render('@Store/Default/display_home_data.html.twig', array('categories' => $categories, 'articles' => $articles));
+        $session = $this->get('session');
+        $repository = $this->getDoctrine()->getRepository("StoreBundle:Article");
+        if ($category == "")
+            $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->findByCategory($this->getDoctrine()->getRepository('StoreBundle:Category')->findByGender($gender));
+        else
+            $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->findByCategory($this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(array('name' => $category, 'gender' => $gender)));
+        $categories = $this->getDoctrine()->getRepository('StoreBundle:Category')->findByGender($gender); 
+        $cart = ShoppingCart::getCart($session);
+        $len = count($cart); 
+        return $this->render('@Store/Default/display_home_data.html.twig', array('categories' => $categories, 'articles' => $articles, 'cart' => $cart, 'length' => $len));
     }
 
-    public function displayCategoryDataAction(Request $request)
+    public function displayArticleAction($gender, $category, $slug, $id, Request $request)
     {
-        $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->findByCategory($this->getDoctrine()->getRepository('StoreBundle:Category')->findBy(array('name' => $request->get('name'), 'gender' => $request->get('gender'))));
-        return $this->render('@Store/Default/display_category_data.html.twig', array('articles' => $articles));
+        $session = $this->get('session');
+        $repository = $this->getDoctrine()->getRepository("StoreBundle:Article");
+        $categories = $this->getDoctrine()->getRepository('StoreBundle:Category')->findByGender($gender);  
+        $article = $this->getDoctrine()->getRepository('StoreBundle:Article')->findOneById($id);
+        $cart = ShoppingCart::getCart($session);
+        $len = count($cart);
+        return $this->render('@Store/Default/display_article.html.twig', array('categories' => $categories, 'article' => $article, 'cart' => $cart, 'length' => $len));
     }
 
-    public function displayArticleAction(Request $request)
+    public function pushCartAction(Request $request)
     {
-        $article = $this->getDoctrine()->getRepository('StoreBundle:Article')->findOneById($request->get("id"));
-        return $this->render('@Store/Default/display_article.html.twig', array('article' => $article));
+        $session = $this->get('session');
+        $repository = $this->getDoctrine()->getRepository("StoreBundle:Article");
+        ShoppingCart::mainCart($session, $request, $repository);
+        echo("success cart"); die();
     }
 
-    public function userAction()
+    public function articleSortAction(Request $request)
     {
-        return $this->render('@Store/Default/user.html.twig');
+        $type = $request->get("sort");
+        if($type == "ASC"){
+            $gender = $request->get("gender");
+            $category = urldecode($request->get("category"));
+            $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->sortBy($type, $gender, $category);
+        }
+        if($type == "DESC"){
+            $gender = $request->get("gender");
+            $category = urldecode($request->get("category"));
+            $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->sortBy($type, $gender, $category);        
+        }
+        if($type == "NEW"){
+            $gender = $request->get("gender");
+            $category = urldecode($request->get("category"));
+            $articles = $this->getDoctrine()->getRepository('StoreBundle:Article')->sortBy($type, $gender, $category);        
+        }
+        return $this->render('@Store/Default/sortArticle.html.twig', array('articles' => $articles));
+    }
+
+    public function payAction(Request $request)
+    {
+        return $this->render('@Store/Default/paypal.html.twig');
     }
 }

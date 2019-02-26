@@ -7,21 +7,31 @@ list_article:
     defaults: { _controller: StoreBundle:Default:getArticle }
 
 display_home_data:
-    path:     /{gender}
-    defaults: { _controller: StoreBundle:Default:displayData }
-
-display_category_data:
-    path:     /category
-    defaults: { _controller: StoreBundle:Default:displayCategoryData }
+    path:     /{gender}/{category}
+    defaults: { _controller: StoreBundle:Default:displayData, category: "" }
+    requirements: 
+        gender: "homme|femme|unisex"
     
 display_article:
-    path:     /article
-    defaults: { _controller: StoreBundle:Default:displayArticle }
+    path:     /{gender}/{category}/{slug}-{id}
+    defaults: { _controller: StoreBundle:Default:displayArticle}
+    requirements:
+        slug: "[a-z0-9-]*"
 
-user:
-    path:     /user
-    defaults: { _controller: StoreBundle:Default:user }
+push_cart:
+    path:     /push_cart
+    defaults: { _controller: StoreBundle:Default:pushCart }
 
-# push_category:
-#     path:     /push_category
-#     defaults: { _controller: StoreBundle:Default:pushCategory }
+articleSort:
+    path:     /article_sort
+    defaults: { _controller: StoreBundle:Default:articleSort }
+
+pay:
+    path:     /pay
+    defaults: { _controller: StoreBundle:Default:pay }
+
+remove_trailing_slash: #toujours garder cette route à la fin du fichier
+    path: /{url}
+    defaults: { _controller: AppBundle:Redirecting:removeTrailingSlash }
+    requirements:
+        url: .*/$
