@@ -30,7 +30,11 @@ pay:
     path:     /pay
     defaults: { _controller: StoreBundle:Default:pay }
 
-remove_trailing_slash: #toujours garder cette route à la fin du fichier
+basket:
+    path:   /basket
+    defaults: { _controller: StoreBundle:Default:basket }
+
+remove_trailing_slash: #toujours garder cette route à la fin du fichier (faut que j'aprenne à coder)
     path: /{url}
     defaults: { _controller: AppBundle:Redirecting:removeTrailingSlash }
     requirements:

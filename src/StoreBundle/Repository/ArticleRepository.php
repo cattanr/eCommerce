@@ -69,7 +69,7 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
                                 ->where('c.gender = :gender')
                                 ->andWhere('c.name = :name')
                                 ->orderBy('a.salePrice', $type)
-                                ->setParameters(['gender'=> $gender, 'name' => $category]);
+                                ->setParameters(['gender'=> $gender, 'name' => $category]); 
         }
         return $queryBuilder
         ->getQuery()

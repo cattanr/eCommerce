@@ -8,86 +8,53 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class ShoppingCart
 {
-    static public function mainCart(Session $session, Request $request, $repository)
+    static public function mainCart($cart, $action, $article)
     {
-        if ($request->get("addItem")){
-            $id = $request->get("addItem");
-            $article = $repository->findById($id);
-            #$article = EntityManager::find("Article", $id, null, null);
-            $cart = ShoppingCart::getCart($session);
-            $cart = ShoppingCart::addItem($cart, $id, $article);
-            ShoppingCart::setCart($session, $cart);
+        if (!isset($cart['article']))
+            $cart['article'] = [];
+        ShoppingCart::{key($action)}($cart, reset($action), $article);
+        return $cart;
+    }
+
+    public function totalPrice(&$cart, $price) {
+        if (!isset($cart['totalPrice']))
+            $cart['totalPrice'] = 0;
+        $cart['totalPrice'] += $price;
+    }
+
+    static private function addItem(&$cart, $id, $article)
+    {
+        if (!isset($cart['article'][$id])){
+            $cart['article'][$id] = $article;
+            $cart['article'][$id]["quantity"] = 1;
         }
-        if ($request->get("minusItem")){
-            $id = $request->get("minusItem");
-            $cart = ShoppingCart::getCart($session);
-            $cart = ShoppingCart::minusItem($cart, $id);
-            ShoppingCart::setCart($session, $cart);
-        } 
-        if ($request->get("plusItem")){
-            $id = $request->get("plusItem");
-            $cart = ShoppingCart::getCart($session);
-            $cart = ShoppingCart::plusItem($cart, $id);
-            ShoppingCart::setCart($session, $cart);
+        else{
+            $cart['article'][$id]["quantity"] +=1;
+            $quantity = $cart['article'][$id]["quantity"];
         }
-        if ($request->get("removeItem")){
-            $id = $request->get("removeItem");
-            $cart = ShoppingCart::getCart($session);
-            $cart = ShoppingCart::removeItem($cart, $id);
-            ShoppingCart::setCart($session, $cart);
-        } 
+        ShoppingCart::totalPrice($cart, ($cart['article'][$id][0]->getSalePrice()));
+    }
+
+    static private function minusItem(&$cart, $id, $article)
+    {
+        ShoppingCart::totalPrice($cart, ($cart['article'][$id][0]->getSalePrice() * -1));
+        if ($cart['article'][$id]["quantity"] == 1)
+            unset($cart['article'][$id]);
         else
-            return ShoppingCart::getCart($session); 
+            $cart['article'][$id]["quantity"] -= 1;
     }
 
-    static public function getCart(Session $session)
+    static private function plusItem(&$cart, $id, $article)
     {
-        return $session->get('cart', array());
-    }
-    static private function setCart(Session $session, $cart)
-    {
-        $session->set('cart', $cart);
+        ShoppingCart::totalPrice($cart, ($cart['article'][$id][0]->getSalePrice()));
+        $cart['article'][$id]["quantity"] += 1;
     }
 
-    static public function getTotalPrice($session)
+    static private function removeItem(&$cart, $id, $article)
     {
-        
-    }
-
-    static private function addItem($cart, $id, $article)
-    {
-        if (!isset($cart["$id"])){
-            $cart["$id"] = $article;
-            $cart["$id"]["quantity"] = 1;
-        }
-        else{
-            $cart["$id"]["quantity"] +=1;
-            $quantity = $cart["$id"]["quantity"];
-        }
-        return $cart;
-    }
-
-    static private function minusItem($cart, $id)
-    {
-        if ($cart["$id"]["quantity"] == 1)
-            unset($cart["$id"]);
-        else{
-            $cart["$id"]["quantity"] -= 1;
-
-        }
-        return $cart;
-    }
-
-    static private function plusItem($cart, $id)
-    {
-        $cart["$id"]["quantity"] += 1;
-        return $cart;
-    }
-
-    static private function removeItem($cart, $id)
-    {
-        unset($cart["$id"]);
-        return $cart;
+        ShoppingCart::totalPrice($cart, (($cart['article'][$id][0]->getSalePrice()
+            * $cart['article'][$id]["quantity"]) * -1));
+        unset($cart['article'][$id]);
     }
 
 

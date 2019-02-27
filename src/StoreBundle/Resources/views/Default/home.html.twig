@@ -32,7 +32,9 @@
                             <div class="col-sm-2 topBouton">
                                 <div id="cart" onclick="windowCart()">
                                     <span class="glyphicon glyphicon-shopping-cart"></span>
-                                    <span style="font-family: Malgun Gothic; margin-left:3%;">Mon Panier ({{ length }})</span>
+                                    <span style="font-family: Malgun Gothic; margin-left:3%;">Mon Panier
+                                        <span id="basketLength"></span>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-sm-1 topBouton">
@@ -67,65 +69,50 @@
     {% endblock %}
     {% block overlay %}
         <div id="overlay">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="col-sm-offset-4 col-sm-4" id="logPage">
-                        <div class="glyphicon glyphicon-remove" id="close-button" onclick="windowCart()" ></div>
-                        <div class="col-sm-12">
-                            {% if cart == [] %}
-                                <span>votre panier est vide</span>
-                            {% else %}
-                                {% for key, article in cart %}
-                                    <div class="col-sm-offset-1 col-md-11" style="margin-top:5%;">
-                                        <div class="col-md-6">
-                                            <img style="width:100%; height:150px;" src="{{ article[0].image }}">
-                                            <span>{{ article[0].name }}</span>
-                                            <br>
-                                            <span>Prix unité: {{ article[0].salePrice|number_format(2,'.',',') }} €</span>
-                                            <br>
-                                            <button class="btn btn-danger" onclick="removeItem('{{ key }}')">Retirer du panier</button>
-                                        </div>
-                                        <div class="col-md-5" style="margin-top:20%;">
-                                            <div class="glyphicon glyphicon-minus" style="cursor:pointer" onclick="minusItem('{{ key }}')"></div>
-                                            <span>Quantité {{ article["quantity"] }}</span>
-                                            <div class="glyphicon glyphicon-plus" style="cursor:pointer" onclick="plusItem('{{ key }}')"></div>
-                                            <span>Total: {{ (article[0].salePrice * article["quantity"])|number_format(2,'.',',')}} €</span>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                                <div>prix total: </div>
-                                <a href="{{ path('pay') }}">procéder au paiement</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+            <div class="row" id="basket">
             </div>
         </div>
     {% endblock %}
     {% block javascript %}
         <script>
+            loadBasket()
+
+            function loadBasket() {
+                return new Promise(function(res){
+                    $.ajax({
+                        type: 'POST',
+                        data: {},
+                        url: "{{ path('basket') }}",
+                        success: function(data){
+                            $('#basket').html(data)
+                            res()
+                        }
+                    });
+                })
+            }
+
             function windowCart()
             {
-                if ($("#overlay").css("display") == "none")
-                {
-                    $("#overlay").css("display","block");
-                    $("html").css({"overflow-y": "hidden"});
-                }
-                else
-                {
-                    $("#overlay").css("display","none");
-                    $("html").css({"overflow-y": "visible"});
-                }
+                loadBasket().then(function(){
+                    if ($("#overlay").css("display") == "none"){
+                        $("#overlay").css("display","block");
+                        $("html").css({"overflow-y": "hidden"});
+                    }
+                    else{
+                        $("#overlay").css("display","none");
+                        $("html").css({"overflow-y": "visible"});
+                    }
+                })
             }
 
             function plusItem(id)
             {
                 $.ajax({
                     type: 'POST',
-                    data: {'plusItem' : id},
+                    data: {'action_cart': {'plusItem' : id}},
                     url: "{{ path('push_cart') }}",
                     success: function(data){
-                        location.reload(true);
+                        loadBasket();
                     }
                 });
             }
@@ -134,10 +121,10 @@
             {
                 $.ajax({
                     type: 'POST',
-                    data: {'minusItem' : id},
+                    data: {'action_cart': {'minusItem' : id}},
                     url: "{{ path('push_cart') }}",
                     success: function(data){
-                        location.reload(true);
+                        loadBasket();
                     }
                 });
             }
@@ -146,10 +133,10 @@
             {
                 $.ajax({
                     type: 'POST',
-                    data: {'removeItem' : id},
+                    data: {'action_cart': {'removeItem' : id}},
                     url: "{{ path('push_cart') }}",
                     success: function(data){
-                        location.reload(true);
+                        loadBasket();
                     }
                 });
             }

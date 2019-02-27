@@ -31,10 +31,10 @@
         {
             $.ajax({
                 type: 'POST',
-                data: {'addItem' : id},
+                data: {'action_cart': {'addItem' : id}},
                 url: "{{ path('push_cart') }}",
                 success: function(data){
-                    location.reload(true);
+                    loadBasket();
                 }
             });
         }

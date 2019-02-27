@@ -1,0 +1,35 @@
+<div class="col-sm-12">
+    <div class="col-sm-offset-4 col-sm-4" id="logPage">
+        <div class="glyphicon glyphicon-remove" id="close-button" onclick="windowCart()" ></div>
+        <div class="col-sm-12">
+            {% if length == 0 %}
+                <span>votre panier est vide</span>
+            {% else %}
+                {% for key, article in cart.article %}
+                    <div class="col-sm-offset-1 col-md-11" style="margin-top:5%;">
+                        <div class="col-md-6">
+                            <img style="width:100%; height:150px;" src="{{ article[0].image }}">
+                            <span>{{ article[0].name }}</span>
+                            <br>
+                            <span>Prix unité: {{ article[0].salePrice|number_format(2,'.',',') }} €</span>
+                            <br>
+                            <button class="btn btn-danger" onclick="removeItem('{{ key }}')">Retirer du panier</button>
+                        </div>
+                        <div class="col-md-5" style="margin-top:20%;">
+                            <div class="glyphicon glyphicon-minus" style="cursor:pointer" onclick="minusItem('{{ key }}')"></div>
+                            <span>Quantité {{ article["quantity"] }}</span>
+                            <div class="glyphicon glyphicon-plus" style="cursor:pointer" onclick="plusItem('{{ key }}')"></div>
+                            <span>Total: {{ (article[0].salePrice * article["quantity"])|number_format(2,'.',',')}} €</span>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div>Prix Total: {{ cart.totalPrice|number_format(2,'.',',') }}€ </div>
+                <a class="btn btn-success" href="{{ path('pay') }}">procéder au paiement</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+        $('#basketLength').html('({{length}})')
+</script>
