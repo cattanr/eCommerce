@@ -36,7 +36,6 @@ class DefaultController extends Controller
 
     public function displayDataAction($gender, $category, Request $request)
     {
-        $cart = $this->get('session')->get('cart', array());
         $categories = $this->getDoctrine()->getRepository('StoreBundle:Category');
         $categories = $category === "" ? $categories->findByGender($gender) :
             $categories->findBy(array('name' => $category, 'gender' => $gender));
@@ -53,7 +52,6 @@ class DefaultController extends Controller
 
     public function displayArticleAction($gender, $category, $slug, $id, Request $request)
     {
-        $cart = $this->get('session')->get('cart', array());
         return $this->render('@Store/Default/display_article.html.twig',
         array(
             'categories' => $this->getDoctrine()->getRepository('StoreBundle:Category')->findByGender($gender),
@@ -64,7 +62,6 @@ class DefaultController extends Controller
     public function pushCartAction(Request $request)
     {
         $session = $this->get('session');
-        $actionCart = $request->get("action_cart");
         $session->set('cart',
             ShoppingCart::mainCart(
                 $session->get('cart', array()),
