@@ -28,21 +28,21 @@
                         <div class="col-sm-1 topBouton">
                             <a class="submit-a" href="{{ path('display_home_data', {'gender': 'unisex', 'category': ''}) }}">Unisex</a>
                         </div>
-                        {% if is_granted('ROLE_USER') %}
-                            <div class="col-sm-2 topBouton">
-                                <div id="cart" onclick="windowCart()">
-                                    <span class="glyphicon glyphicon-shopping-cart"></span>
-                                    <span style="font-family: Malgun Gothic; margin-left:3%;">Mon Panier
-                                        <span id="basketLength"></span>
-                                    </span>
-                                </div>
+                        <div class="col-sm-2 topBouton">
+                            <div id="cart" onclick="windowCart()">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                <span style="font-family: Malgun Gothic; margin-left:3%;">Mon Panier
+                                    <span id="basketLength"></span>
+                                </span>
                             </div>
+                        </div>
+                        {% if is_granted('ROLE_USER') %}
                             <div class="col-sm-1 topBouton">
-                                <a  class="submit-a" href="http://195.154.119.108/app_dev.php/logout">Déconnexion</a>
+                                <a  class="submit-a" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
                             </div>
                         {% else %}
-                            <div class="col-sm-offset-1 col-sm-2 topBouton">
-                                <a class="submit-a" href="http://195.154.119.108/app_dev.php/login">S'inscrire/ Connexion</a>
+                            <div class="col-sm-2 topBouton">
+                                <a class="submit-a" href="{{ path('fos_user_security_login') }}">S'inscrire/ Connexion</a>
                             </div>
                         {% endif %}
                     </div>

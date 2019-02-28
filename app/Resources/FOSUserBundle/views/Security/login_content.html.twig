@@ -9,6 +9,8 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
         <h2 class="form-signin-heading">Connectez vous ici</h2>
+        <p>Utilisateur classique Login: user MDP: user</p>
+        <p>Utilisateur ADMIN (/admin pour accéder au backoffice) Login: admin MDP: admin</p>
         <label for="username" class="sr-only">{{ 'security.login.username'|trans }}</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Identifiant" class="form-control" required autofocus />
         <label for="password" class="sr-only">{{ 'security.login.password'|trans }}</label>
@@ -27,6 +29,7 @@
                name="_submit"
                value="{{ 'security.login.submit'|trans }}" />
     </form>
+    <a id="registration" href="{{path('fos_user_registration_register')}}"> Vous n'avez pas de compte ?</a>
 
 {% endblock fos_user_content %}
 
@@ -76,6 +79,9 @@
             margin-bottom: 10px;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
+        }
+        #registration.hover{
+            text-decoration: underline;
         }
     </style>
 {% endblock %}
