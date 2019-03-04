@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+</head>
+<body>
+  <script src="https://js.stripe.com/v3/"></script>
+  <div class="container-fluid row">
+    <div class="col-md-7">
+      <table class="table table-hover">
+          <thead>
+              <tr><h1>Récapitulatif de vos achats</h1></tr>
+          </thead>
+          <tbody>
+            {% for article in cart.article %}
+              <tr>
+                <td><img class="row-image" style="width:190px;;height:150px;" src="{{ article[0].image }}"></td>
+                <td><span>{{ article[0].name }}</span></td>
+                <td><span>Prix unité: {{ article[0].salePrice|number_format(2,'.',',') }} €</span></td>
+                <td><span>Quantité {{ article["quantity"] }}</span></td>
+                <td><span>Total: {{ (article[0].salePrice * article["quantity"])|number_format(2,'.',',')}} €</span></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <span>Prix Total: {{ cart.totalPrice|number_format(2,'.',',') }}€</span>
+    </div>
+    <div class="col-md-5">
+      <span>Compte de test paypal: ontrad35-buyer@gmail.com, paypaltest1</span>
+      <br>
+      <span>Pour les tests STRIPE: </span>
+      <br>
+      <span>Visa: 4242 4242 4242 4242</span>
+      <br>
+      <br>
+      <span>N'importe quel mois et année et n'importe quel CVC de 3 chiffres </span>
+      <form action="{{ path('submitPayment') }}" id="payment_form" method="post">     
+        <h4 class="form-text col-md-12">Veuillez saisir vos coordonnées de carte bancaire</h4>
+        <div class="form-group col-md-12">
+          <label class="Input" data-max="4242 4242 4242 4242 4242">
+            <input class="form-control" data-stripe="number" placeholder="Numéro de carte">
+          </label>
+        </div>
+        <div>
+          <div class="form-group col-md-2">
+            <label class="Input" data-max="MM">
+              <input type="number" class="form-control" data-stripe="exp_month" placeholder="MM">
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <label class="Input" data-max="AA">
+                <input type="number" class="form-control" data-stripe="exp_year" placeholder="AA">
+            </label>
+          </div>
+        </div>
+        <div class="form-group col-md-11">
+            <label class="Input" data-max="000">
+              <input class="form-control" data-stripe="cvc" placeholder="CVC">
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary col-md-3" id="submit_stripe" style="margin-left:3%;">Payer {{ cart.totalPrice|number_format(2,'.',',') }}€</button>
+      </form>    
+      <div class="col-md-12" style="margin-top:15px;">
+        <!--<div id="paypal-button"></div>-->
+      </div>             
+    </div>
+  </div>
+  <script>
+    Stripe.setPublishableKey('pk_test_0Vi7ArKz5miaUn7ShCwjNved')
+    var $form = $('#payment_form')
+    $form.submit(function(e){
+      e.preventDefault()
+      $form.find('#submot_stripe').attr('disabled', true)
+      Stripe.card.createToken($form, function(status, response)
+      {
+        if(response.error){
+          $form.find('.message').remove();
+          $form.pretend('<div class="has-error"><p>' + response.error.message + '</p></div>')
+        } else {
+          var token = response.id
+          $form.append($('<input type="hidden" name="stripeToken">').val(token))
+          $form.get(0).submit()
+        }
+      })
+    })
+  </script>
+  <script>
+      paypal.Button.render({
+        env: 'sandbox',
+        commit: true,
+        locale: 'fr_FR',
+        style: {
+          color: 'blue',
+          shape: 'pill',
+          label: 'generic'
+        },
+        payment: function() {
+          return paypal.request.post('StoreBundle/Service/Paypal/payment.php').then(function(data){
+            return data.id;
+          });
+        },
+        onAuthorize: function(data, actions) {
+          return paypal.request.post('pay.php', {
+            paymentID: data.paymentID,
+            payerID: data.payerID
+          }).then(function(){
+            //faire l'affichage du paiement success
+          }).catch(function(err){
+            console.log('erreur', err)
+          });
+        }
+      },'#paypal-button');
+  </script>
+</body>
+<script>
+  (function() {
+  'use strict';
+
+  var elements = stripe.elements({
+    fonts: [
+      {
+        cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+      },
+    ],
+    // Stripe's examples are localized to specific languages, but if
+    // you wish to have Elements automatically detect your user's locale,
+    // use `locale: 'auto'` instead.
+    locale: 'auto'
+  });
+
+  var card = elements.create('card', {
+    iconStyle: 'solid',
+    style: {
+      base: {
+        iconColor: '#c4f0ff',
+        color: '#fff',
+        fontWeight: 500,
+        fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+        fontSize: '16px',
+        fontSmoothing: 'antialiased',
+
+        ':-webkit-autofill': {
+          color: '#fce883',
+        },
+        '::placeholder': {
+          color: '#87BBFD',
+        },
+      },
+      invalid: {
+        iconColor: '#FFC7EE',
+        color: '#FFC7EE',
+      },
+    },
+  });
+  card.mount('#example1-card');
+
+  registerElements([card], 'example1');
+})();
+</script>
+</html>

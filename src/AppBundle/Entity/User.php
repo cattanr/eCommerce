@@ -5,8 +5,8 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * 
- * 
+ * @ORM\Entity
+ * @ORM\Table(name="fos_user")
  */
 
 
@@ -21,13 +21,6 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var array
-     * @ORM\Column(type="array")
-     */
-    private $cart;
-
-
-    /**
      * Get id
      *
      * @return int
@@ -37,20 +30,37 @@ class User extends BaseUser
         return $this->id;
     }
 
-    public function getCart()
-    {
-        return $this->cart;
-    }
-
-    public function setCart($cart)
-    {
-        $this->cart = $cart;
-        return $this;
-    }
-
     public function __construct()
     {
         parent::__construct();
-        $this->cart = array();
+    }
+    /**
+     * @var string
+     */
+    private $order;
+
+
+    /**
+     * Set order.
+     *
+     * @param string $order
+     *
+     * @return User
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order.
+     *
+     * @return string
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

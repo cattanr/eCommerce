@@ -9,6 +9,26 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/home.css') }}">
 </head>
+    <style>
+        .submenu{
+            display: none;  
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .list:hover .submenu{
+            display: inline-block;
+            z-index: 1000000;
+        }
+        .element
+        {
+            list-style-type: none; 
+            font-family: Malgun Gothic;
+            border-bottom: 1px solid grey;
+            margin-top: 20px;
+            margin-right:30px;
+        }
+    </style>
 <body>
     {% block bandeau %}
         <div class="container-fluid">
@@ -37,8 +57,16 @@
                             </div>
                         </div>
                         {% if is_granted('ROLE_USER') %}
-                            <div class="col-sm-1 topBouton">
-                                <a  class="submit-a" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                            <div class="col-sm-2 topBouton">
+                                <ul class="list">
+                                    <li class="submit-a" style="list-style-type: none;"><a class="submit-a">Mon compte</a>
+                                        <ul class="submenu">
+                                            <li class="element"><a class="submit-a" href="">Mes commandes</a></li>
+                                            <li class="element"><a class="submit-a" href="">Mes paramètres</a></li>
+                                            <li class="element"><a class="submit-a" href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         {% else %}
                             <div class="col-sm-2 topBouton">
@@ -52,20 +80,27 @@
     {% endblock %}
     {% block content %}
         <div class="container-fluid row col-sm-12">
-            <img style="margin-top:90px; width:103%; height:750px;" src="https://www.pixelstalk.net/wp-content/uploads/2016/07/4k-Wallpapers-For-Desktop.jpg"/>
-            <div class="col-sm-offset-5" style="margin-top:5%; height:350px;">
-                <h1>Insert catch phrase here</h1>
-                <p>Insert description here</p>
-                <button>insert button here</button>
-        </div>
-        <div class="col-sm-12">
-            <img style="margin-left:-2%; width:106%; height:750px;" src="https://assets.adidas.fr/image/upload/f_auto,q_auto,fl_lossy/frFR/Images/181101-HOLIDAY-FW18-HP-MH-Wave-1-DT_tcm196-295969.jpg"/>
-            <div class="col-sm-offset-5" style="margin-top:4%; height:900px;">
-                <h1>Insert catch phrase here</h1>
-                <p>Insert description here</p>
-                <button>insert button here</button>
+            <div id="banner" style="z-index:-999; position:fixed;">
+                <img style="margin-top:90px; width:103%; height:300px; " src="https://content.nike.com/content/dam/one-nike/en_lu/SP19/Homepage/EMEA/0228/0228-P1-NSW-AM-720-TAKEOVER-DT.png.transform/full-screen/0228-P1-NSW-AM-720-TAKEOVER-DT.png">
+                <img style="width:103%; height:1200px;;" src="https://content.nike.com/content/dam/one-nike/en_lu/SP19/Homepage/EMEA/0228/0228-P2-NSW-AM-720-TAKEOVER-DT.png.transform/full-screen/0228-P2-NSW-AM-720-TAKEOVER-DT.png"/>
+                <img style="width:103%; height:900px;" src="https://content.nike.com/content/dam/one-nike/en_lu/SP19/Homepage/EMEA/0228/0228-P3-NSW-AM-720-TAKEOVER-DT.png.transform/full-screen/0228-P3-NSW-AM-720-TAKEOVER-DT.png">
+                <img style="width:103%; height:600px;" src="https://content.nike.com/content/dam/one-nike/en_lu/SP19/Homepage/EMEA/0228/0228-P4-NSW-AM-720-TAKEOVER-DT.png.transform/full-screen/0228-P4-NSW-AM-720-TAKEOVER-DT.png">
             </div>
-        </div>
+            <div class="col-sm-12" id="text1" style="margin-top:400px; width:103%; height:200px; background-color:white; opacity: 0.75;">
+                <h1 style="text-align:center;">Bienvenue sur le projet e-commerce de Romain Cattaneo</h1>
+                <p style="font-size: 130%;">Ce projet est structuré en deux grandes parties, la boutique fictive directement accessible en cliquant sur le type de vêtement souhaité et l'espace back office réservé au compte administrateur. Je vous invite à découvrir la boutique, choisir des articles et enfin procéder au paiement. L'api de stripe ayant été intégrée en environnement de test, saisissez les informations de paiement indiquées sur la page lors de l'achat afin de mener à bien la procédure.</p>
+                <h3 style="text-align: center;">Scrollez vers le bas pour le descriptif de la partie back office</h3>
+            </div>
+            <div class="col-sm-12" style="margin-top:600px; width:103%; height:200px; background-color:white; opacity: 0.75;">
+                <h1 style="text-align: center">Description du back office</h1>    
+                <p style="font-size: 130%;">Entrer les logs admin indiqués sur la page de connexion afin d'accéder au back office. Vous accéderez donc à l'ajout, modification, suppresion des articles. Les modifications étant disponibles pour tous, merci de rester respectueux. Vous pouvez aussi appliquer des promotions de 0 à 99% sur les articles. Les features Statistiques, Facture, commandes clients et paramètres clients sont en cours de développement. </p>
+                <h3 style="text-align: center">Merci pour votre visite</h3>
+            </div>
+            <div class="col-sm-12" style="margin-top:900px;">
+                <div class="col-sm-offset-5">
+                    <h1></h1>
+                </div>
+            </div>
     {% endblock %}
     {% block overlay %}
         <div id="overlay">
@@ -140,10 +175,22 @@
                     }
                 });
             }
-
-            function submitCart(cart)
+        </script>
+        <script>
+            window.addEventListener("DOMContentLoaded", scrollLoop, false)
+            var banner = document.querySelector('#banner')
+            var xScrollPosition
+            var yScrollPosition
+            function scrollLoop(e)
             {
-                
+                xScrollPosition = window.scrollX
+                yScrollPosition = window.scrollY
+                setTranslate(0, yScrollPosition * -1.5, banner)
+                requestAnimationFrame(scrollLoop)
+            }
+            function setTranslate(xPos, yPos, el)
+            {
+                el.style.transform = "translate3d(" + xPos + ", " + yPos + "px, 0)"
             }
         </script>
     {% endblock %}

@@ -27,8 +27,12 @@ articleSort:
     defaults: { _controller: StoreBundle:Default:articleSort }
 
 pay:
-    path:     /pay
+    path:     user/pay
     defaults: { _controller: StoreBundle:Default:pay }
+
+submitPayment:
+    path:     user/submit_payment
+    defaults: { _controller: StoreBundle:Default:submitPayment }
 
 basket:
     path:   /basket

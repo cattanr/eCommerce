@@ -2,9 +2,6 @@
 
 namespace StoreBundle\Service;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-
 class ShoppingCart
 {
     static public function mainCart($cart, $action, $article)
@@ -15,7 +12,7 @@ class ShoppingCart
         return $cart;
     }
 
-    public function totalPrice(&$cart, $price) {
+    static public function totalPrice(&$cart, $price) {
         if (!isset($cart['totalPrice']))
             $cart['totalPrice'] = 0;
         $cart['totalPrice'] += $price;
@@ -27,10 +24,8 @@ class ShoppingCart
             $cart['article'][$id] = $article;
             $cart['article'][$id]["quantity"] = 1;
         }
-        else{
+        else
             $cart['article'][$id]["quantity"] +=1;
-            $quantity = $cart['article'][$id]["quantity"];
-        }
         ShoppingCart::totalPrice($cart, ($cart['article'][$id][0]->getSalePrice()));
     }
 
